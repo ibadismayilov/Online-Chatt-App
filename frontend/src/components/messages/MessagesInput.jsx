@@ -21,48 +21,26 @@ const MessagesInput = () => {
         textarea.style.height = textarea.scrollHeight + 'px';
     };
 
-    const handleImageChange = (e) => {
-        if (e.target.files[0]) {
-            setImage(e.target.files[0]);  // Şəkili vəziyyətə qoy
-        }
-    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!message && !image) return;
-    
+        if (!message) return;
+
         try {
-            let imageUrl = null;
-    
-            if (image) {
-                const formData = new FormData();
-                formData.append('image', image);
-    
-                const response = await fetch('http://localhost:5000/api/upload', {
-                    method: 'POST',
-                    body: formData,
-                });
-    
-                const data = await response.json();
-    
-                if (!response.ok) {
-                    throw new Error(`Failed to upload image: ${response.status}`);
-                }
-    
-                imageUrl = data.imageUrl;  // Backend-dən qaytarılan şəkil URL-si
-                setImage(null);  // Şəkil uğurla göndərildikdən sonra sıfırla
-            }
-    
-            if (message || imageUrl) {
-                await sendMessage({ text: message, imageUrl });  // Mesaj və şəkil URL-ni göndərin
-                setMessage("");  // Mesajı sıfırla
-            }
+
+            const response = await fetch('http://localhost:5000/api/upload', {
+                method: 'POST',
+                body: formData,
+            });
+
+            const data = await response.json();
+
         } catch (error) {
             console.error('Fetch error:', error);
         }
     };
-    
-    
+
+
 
     return (
         <div className='message-input'>
@@ -81,20 +59,6 @@ const MessagesInput = () => {
                         style={{ resize: 'none', overflow: 'hidden' }}
                     />
                     <div className='message-send-button'>
-                        <input
-                            type="file"
-                            ref={fileInputRef}
-                            style={{ display: 'none' }}  // Fayl seçimi gizli olsun
-                            accept="image/*"
-                            onChange={handleImageChange}
-                        />
-                        <button 
-                            type='button' 
-                            className='send-image-button'
-                            onClick={() => fileInputRef.current.click()}  // Fayl seçimi açmaq üçün klik
-                        >
-                            <PiImage className='send-image-icon' />
-                        </button>
                         <button type='submit' className='send-button'>
                             <RiSendPlaneLine className='send-icon' />
                         </button>
