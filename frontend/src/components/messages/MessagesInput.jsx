@@ -9,9 +9,7 @@ const MessagesInput = () => {
     const { authUser } = useAuthContext();
 
     const [message, setMessage] = useState("");
-    const [image, setImage] = useState(null);  // Şəkil vəziyyəti yarat
     const textareaRef = useRef(null);
-    const fileInputRef = useRef(null);  // Fayl seçimi üçün ref yarat
 
     const handleChange = (e) => {
         const textarea = textareaRef.current;
@@ -22,25 +20,12 @@ const MessagesInput = () => {
     };
 
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        if (!message) return;
-
-        try {
-
-            const response = await fetch('http://localhost:5000/api/upload', {
-                method: 'POST',
-                body: formData,
-            });
-
-            const data = await response.json();
-
-        } catch (error) {
-            console.error('Fetch error:', error);
-        }
-    };
-
-
+	const handleSubmit = async (e) => {
+		e.preventDefault();
+		if (!message) return;
+		await sendMessage(message);
+		setMessage("");
+	};
 
     return (
         <div className='message-input'>
