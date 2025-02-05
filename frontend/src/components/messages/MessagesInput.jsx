@@ -27,6 +27,8 @@ const MessagesInput = () => {
         setMessage("");
         setSelectedImage(null);
         setShowPicker(false);
+
+        textareaRef.current.focus();
     };
 
     const handleImageSelect = (e) => {
