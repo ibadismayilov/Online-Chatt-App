@@ -2,10 +2,10 @@
   "name": "backend",
   "version": "1.0.0",
   "main": "server.js",
+  "type": "module",
   "scripts": {
     "start": "node server.js"
   },
-  "type": "module",
   "dependencies": {
     "cloudinary": "^2.5.1",
     "dotenv": "^16.4.5",
