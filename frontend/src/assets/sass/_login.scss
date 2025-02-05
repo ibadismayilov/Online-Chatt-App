@@ -91,7 +91,7 @@ $gradient: linear-gradient(135deg, #0084ff 0%, #00c6ff 100%);
                         background: rgba(255, 255, 255, 0.1);
                     }
 
-                    &:focus + &::after {
+                    &:focus+&::after {
                         width: 100%;
                     }
 
@@ -110,7 +110,7 @@ $gradient: linear-gradient(135deg, #0084ff 0%, #00c6ff 100%);
             .forgot-password {
                 text-align: right;
                 margin: -0.5rem 0 2rem;
-                
+
                 a {
                     color: rgba(255, 255, 255, 0.7);
                     font-size: 0.95rem;
@@ -131,7 +131,7 @@ $gradient: linear-gradient(135deg, #0084ff 0%, #00c6ff 100%);
 
                     &:hover {
                         color: $accent-blue;
-                        
+
                         &::after {
                             width: 100%;
                         }
@@ -224,7 +224,7 @@ $gradient: linear-gradient(135deg, #0084ff 0%, #00c6ff 100%);
 
                     &:hover {
                         color: lighten($accent-blue, 10%);
-                        
+
                         &::before {
                             transform: scaleX(1);
                             transform-origin: left;
@@ -256,10 +256,12 @@ $gradient: linear-gradient(135deg, #0084ff 0%, #00c6ff 100%);
         transform: translate(-50%, -50%) scale(1);
         opacity: 0.5;
     }
+
     50% {
         transform: translate(-50%, -50%) scale(1.2);
         opacity: 0.3;
     }
+
     100% {
         transform: translate(-50%, -50%) scale(1);
         opacity: 0.5;
@@ -269,9 +271,10 @@ $gradient: linear-gradient(135deg, #0084ff 0%, #00c6ff 100%);
 // Responsive styles
 @media screen and (max-width: 480px) {
     .login-wrapper {
-        padding: 1rem;
 
         .login-window {
+            width: 100%;
+
             .form {
                 padding: 2rem;
 

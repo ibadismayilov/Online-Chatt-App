@@ -91,7 +91,7 @@ $gradient: linear-gradient(135deg, #0084ff 0%, #00c6ff 100%);
                         background: rgba(255, 255, 255, 0.1);
                     }
 
-                    &:focus + &::after {
+                    &:focus+&::after {
                         width: 100%;
                     }
 
@@ -242,7 +242,7 @@ $gradient: linear-gradient(135deg, #0084ff 0%, #00c6ff 100%);
 
                     &:hover {
                         color: lighten($accent-blue, 10%);
-                        
+
                         &::before {
                             transform: scaleX(1);
                             transform-origin: left;
@@ -274,10 +274,12 @@ $gradient: linear-gradient(135deg, #0084ff 0%, #00c6ff 100%);
         transform: translate(-50%, -50%) scale(1);
         opacity: 0.5;
     }
+
     50% {
         transform: translate(-50%, -50%) scale(1.2);
         opacity: 0.3;
     }
+
     100% {
         transform: translate(-50%, -50%) scale(1);
         opacity: 0.5;
@@ -287,9 +289,10 @@ $gradient: linear-gradient(135deg, #0084ff 0%, #00c6ff 100%);
 // Responsive styles
 @media screen and (max-width: 480px) {
     .singup-wrapper {
-        padding: 1rem;
 
         .singup-window {
+            width: 100%;
+
             .form {
                 padding: 2rem;
 
@@ -308,7 +311,7 @@ $gradient: linear-gradient(135deg, #0084ff 0%, #00c6ff 100%);
 
                 .gender-wrapper {
                     margin-bottom: 1.5rem;
-                    
+
                     div label {
                         padding: 0.9rem;
                         font-size: 0.95rem;
