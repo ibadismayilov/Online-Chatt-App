@@ -16,6 +16,7 @@ export const SocketContextProvider = ({ children }) => {
     useEffect(() => {
         if (authUser) {
             const socketURL = import.meta.env.VITE_SOCKET_URL || 'http://localhost:5000'; // .env faylında düzgün URL təmin edildiyinə əmin olun
+            console.log('Socket URL:', socketURL);
 
             // Socket.io bağlantısını qururuq
             const socketInstance = io(socketURL, {
