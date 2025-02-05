@@ -8,14 +8,15 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
     cors: {
-        origin: process.env.CLIENT_URL || "http://localhost:3000",
+        origin: "https://online-chatt-app-11.onrender.com" || "http://localhost:3000",
         methods: ["GET", "POST"],
         credentials: true,
-      }
+    },
+    transports: ['websocket']
 });
 
 export const getReceiverSocketID = (receiverID) => {
-	return userSocketMap[receiverID];
+    return userSocketMap[receiverID];
 };
 
 const userSocketMap = {}; // { userID: socketID }
