@@ -4,7 +4,7 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import fileUpload from 'express-fileupload';
 import path from 'path';
-import { app, server } from './socket/socket.js'; // Buradan gəlir!
+import { app, server } from './socket/socket.js';
 import authRoutes from './routes/auth.routes.js';
 import usersRoutes from './routes/users.routes.js';
 import messageRoutes from './routes/message.routes.js';
@@ -18,7 +18,7 @@ const __dirname = path.resolve();
 // Middleware-lər
 app.use(express.json());
 app.use(cors({
-    origin: ["https://online-chatt-app-11.onrender.com", "http://localhost:3000"], // Səhv düzəldildi
+    origin: ["https://online-chatt-app-11.onrender.com", "http://localhost:3000"],
     credentials: true
 }));
 app.use(cookieParser());
@@ -38,7 +38,6 @@ app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "frontend", "dist", "index.html"));
 });
 
-// **YALNIZ BİR DƏFƏ SERVERİ İŞƏ SALIRIQ!**
 server.listen(PORT, () => {
     connectToMongoDB();
     console.log(`✅ Server ${PORT} portunda işləyir...`);
