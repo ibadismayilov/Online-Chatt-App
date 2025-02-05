@@ -9,31 +9,31 @@ export const useSocketContext = () => {
 };
 
 export const SocketContextProvider = ({ children }) => {
-
     const [socket, setSocket] = useState(null);
     const [onlineUsers, setOnlineUsers] = useState([]);
     const { authUser } = useAuthContext();
 
     useEffect(() => {
         if (authUser) {
-            
-            const socketURL = import.meta.env.VITE_SOCKET_URL || 'http://localhost:5000';
+            const socketURL = import.meta.env.VITE_SOCKET_URL || 'http://localhost:5000'; // .env faylında düzgün URL təmin edildiyinə əmin olun
 
-            const socket = io(socketURL, {
+            // Socket.io bağlantısını qururuq
+            const socketInstance = io(socketURL, {
                 query: {
-                    userID: authUser._id
+                    userID: authUser._id,
                 },
-                transports: ['websocket'], 
-                secure: true, // HTTPS ilə əlaqə qur
+                transports: ['websocket'],  // WebSocket-i istifadə etmək
+                secure: socketURL.startsWith('https'), // Əgər URL HTTPS ilə başlayırsa, secure təyin edirik
             });
 
-            setSocket(socket);
+            setSocket(socketInstance);
 
-            socket.on('getOnlineUser', (users) => {
+            // Online istifadəçiləri izləmək
+            socketInstance.on('getOnlineUser', (users) => {
                 setOnlineUsers(users);
             });
 
-            return () => socket.close(); // Component çıxarılarkən bağlantını kəs
+            return () => socketInstance.close(); // Component çıxarılarkən bağlantını kəs
         } else {
             if (socket) {
                 socket.close();
@@ -42,7 +42,9 @@ export const SocketContextProvider = ({ children }) => {
         }
     }, [authUser]);
 
-    return <SocketContext.Provider value={{ socket, onlineUsers }}>
-        {children}
-    </SocketContext.Provider>;
+    return (
+        <SocketContext.Provider value={{ socket, onlineUsers }}>
+            {children}
+        </SocketContext.Provider>
+    );
 };
