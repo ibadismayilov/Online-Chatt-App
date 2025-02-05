@@ -20,7 +20,7 @@ dotenv.config();
 
 app.use(express.json());
 app.use(cors({
-    origin: process.env.CLIENT_URL,
+    origin: ["https://online-chatt-app-11.onrender.com", "http://localhost:3000"],
     credentials: true
 }));
 app.use(cookieParser());
