@@ -28,7 +28,9 @@ const MessagesInput = () => {
         setSelectedImage(null);
         setShowPicker(false);
 
-        textareaRef.current.focus();
+        setTimeout(() => {
+            textareaRef.current.focus();
+        }, 100);
     };
 
     const handleImageSelect = (e) => {
