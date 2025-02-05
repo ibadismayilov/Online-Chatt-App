@@ -17,7 +17,7 @@ export const SocketContextProvider = ({ children }) => {
     useEffect(() => {
         if (authUser) {
             // Dinamik URL istifadə et (Render və ya Lokal mühit üçün)
-            const socketUrl = import.meta.env.VITE_SOCKET_URL || 'http://localhost:5000';  // Render üçün URL təyin et
+            const socketUrl = import.meta.env.VITE_SOCKET_URL || 'http://localhost:5000';
 
             const socket = io(socketUrl, {
                 query: {
