@@ -34,5 +34,4 @@ io.on('connection', (socket) => {
     });
 });
 
-// Backend `server.js` bunu import edəcək
 export { app, io, server };
