@@ -11,13 +11,23 @@ const Conversation = ({ conversation, lastIndex }) => {
     const { socket, onlineUsers } = useSocketContext();
     const isOnline = onlineUsers.includes(conversation._id);
 
+    const [isOpen, setIsOpen] = useState(false);
+
     return (
-        <div className={`conversation ${isSelected ? 'conversation-bg' : ''}`} onClick={() => setSelectedConversation(conversation)} >
+        <div className={`conversation ${isSelected ? 'conversation-bg' : ''}`} >
             <div className='d-flex align-items-center'>
                 <div className='users-logo'>
-                    <img src={conversation.profilePic} alt="" />
+                    <img src={conversation.profilePic} alt="Profile Small" className="small-image" onClick={() => setIsOpen(true)} />
+
+                    <div>
+                        {isOpen && (
+                            <div className="modal-effect" onClick={() => setIsOpen(false)}>
+                                <img src={conversation.profilePic} alt="Profile Large" className="large-image" />
+                            </div>
+                        )}
+                    </div>
                 </div>
-                <div className='users-name mx-4'>
+                <div className='users-name mx-4' onClick={() => setSelectedConversation(conversation)}>
                     <p style={{ color: 'white' }}>{conversation.fullname}</p>
                 </div>
             </div>

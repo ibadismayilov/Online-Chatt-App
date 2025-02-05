@@ -1,55 +1,118 @@
 import React, { useState, useRef } from 'react';
 import useSendMessage from '../../hooks/useSendMessage';
-import { PiImage } from "react-icons/pi";
+import { BsSend } from "react-icons/bs";
+import { HiOutlinePhoto } from "react-icons/hi2";
 import { useAuthContext } from '../../context/AuthContext';
-import { RiSendPlaneLine } from "react-icons/ri";
+import Picker from "@emoji-mart/react";
+import data from "@emoji-mart/data";
 
 const MessagesInput = () => {
     const { loading, sendMessage } = useSendMessage();
     const { authUser } = useAuthContext();
-
     const [message, setMessage] = useState("");
+    const [selectedImage, setSelectedImage] = useState(null);
     const textareaRef = useRef(null);
+    const fileInputRef = useRef(null);
+    const [showPicker, setShowPicker] = useState(false);
 
-    const handleChange = (e) => {
-        const textarea = textareaRef.current;
-        setMessage(e.target.value);
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        if (!message.trim() && !selectedImage) return;
 
-        textarea.style.height = 'auto';
-        textarea.style.height = textarea.scrollHeight + 'px';
+        const formData = new FormData();
+        if (message.trim()) formData.append("message", message);
+        if (selectedImage) formData.append("image", selectedImage);
+
+        await sendMessage(formData);
+        setMessage("");
+        setSelectedImage(null);
+        setShowPicker(false);
     };
 
+    const handleImageSelect = (e) => {
+        const file = e.target.files[0];
+        if (file && file.type.startsWith('image/')) {
+            setSelectedImage(file);
+        } else {
+            alert('Please select an image file');
+        }
+    };
 
-	const handleSubmit = async (e) => {
-		e.preventDefault();
-		if (!message) return;
-		await sendMessage(message);
-		setMessage("");
-	};
+    const handleEmojiSelect = (emoji) => {
+        setMessage((prev) => prev + emoji.native);
+    };
+
+    const adjustTextareaHeight = () => {
+        const textarea = textareaRef.current;
+        textarea.style.height = 'auto';
+        textarea.style.height = Math.min(textarea.scrollHeight, 100) + 'px';
+    };
 
     return (
-        <div className='message-input'>
-            <form className='form' onSubmit={handleSubmit}>
-                <div className='user-image'>
-                    <img src={authUser.profilePic} alt="" />
-                </div>
-                <div className='input-box'>
+        <div className="messages-input-container">
+            <form onSubmit={handleSubmit} className="messages-input-form">
+                <div className="input-area">
+                    <label className="image-upload-label">
+                        <HiOutlinePhoto className="upload-icon" />
+                        <input
+                            type="file"
+                            onChange={handleImageSelect}
+                            ref={fileInputRef}
+                            accept="image/*"
+                            className="hidden-input"
+                        />
+                    </label>
+
                     <textarea
                         ref={textareaRef}
-                        className='textarea'
-                        placeholder='Type a message'
                         value={message}
-                        onChange={handleChange}
+                        onChange={(e) => {
+                            setMessage(e.target.value);
+                            adjustTextareaHeight();
+                        }}
+                        placeholder="Type a message..."
+                        className="message-textarea"
                         rows={1}
-                        style={{ resize: 'none', overflow: 'hidden' }}
                     />
-                    <div className='message-send-button'>
-                        <button type='submit' className='send-button'>
-                            <RiSendPlaneLine className='send-icon' />
+                    
+                    <div className="input-actions">
+                        <button 
+                            type="button" 
+                            className="emoji-button"
+                            onClick={() => setShowPicker(!showPicker)}
+                        >
+                            {!showPicker ? '😀' : '❌'}
+                        </button>
+
+                        <button 
+                            type="submit" 
+                            className="send-button"
+                            disabled={loading || (!message.trim() && !selectedImage)}
+                        >
+                            {loading ? <div class="spinner"></div> : <BsSend className="send-icon" />}
                         </button>
                     </div>
                 </div>
             </form>
+
+            {showPicker && (
+                <div className="emoji-picker-container">
+                    <Picker data={data} onEmojiSelect={handleEmojiSelect} />
+                </div>
+            )}
+
+            {selectedImage && (
+                <div className="image-preview">
+                    <img src={URL.createObjectURL(selectedImage)} alt="Selected" />
+                    <button 
+                        type="button" 
+                        className="remove-image"
+                        onClick={() => setSelectedImage(null)}
+                    >
+                        ✕
+                    </button>
+                </div>
+            )}
         </div>
     );
 };

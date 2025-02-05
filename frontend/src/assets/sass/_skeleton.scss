@@ -1,0 +1,311 @@
+// Skeleton Variables
+$skeleton-bg: rgba(255, 255, 255, 0.05);
+$skeleton-highlight: rgba(255, 255, 255, 0.1);
+$skeleton-border: rgba(255, 255, 255, 0.08);
+$skeleton-animation-duration: 1.5s;
+
+// Skeleton Base Styles
+.skeleton-wrapper {
+    background: rgba(26, 39, 49, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid $skeleton-border;
+    border-radius: 15px;
+    padding: 1rem;
+    position: relative;
+    overflow: hidden;
+    animation: skeletonFadeIn 0.5s ease forwards;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(
+            90deg,
+            transparent,
+            $skeleton-highlight,
+            transparent
+        );
+        animation: skeletonLoading $skeleton-animation-duration infinite;
+    }
+}
+
+// Messages Container Skeleton
+.messages-skeleton-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+    height: 100%;
+    overflow-y: auto;
+
+    .message-skeleton {
+        opacity: 0;
+        animation: messageAppear 0.5s ease forwards;
+
+        @for $i from 1 through 3 {
+            &:nth-child(#{$i}) {
+                animation-delay: #{$i * 0.15}s;
+            }
+        }
+    }
+}
+
+// Message Skeleton Styles
+.message-skeleton {
+    @extend .skeleton-wrapper;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    max-width: 70%;
+    transition: all 0.3s ease;
+
+    .avatar-skeleton {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: $skeleton-bg;
+        flex-shrink: 0;
+        position: relative;
+        overflow: hidden;
+
+        &::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                45deg,
+                transparent,
+                rgba(255, 255, 255, 0.1),
+                transparent
+            );
+            animation: shimmer 2s infinite;
+        }
+    }
+
+    .content-skeleton {
+        flex: 1;
+
+        .name-skeleton {
+            width: 120px;
+            height: 16px;
+            background: $skeleton-bg;
+            border-radius: 4px;
+            margin-bottom: 0.5rem;
+            position: relative;
+            overflow: hidden;
+
+            &::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: linear-gradient(
+                    90deg,
+                    transparent,
+                    rgba(255, 255, 255, 0.1),
+                    transparent
+                );
+                animation: shimmer 2s infinite;
+            }
+        }
+
+        .text-skeleton {
+            height: 14px;
+            background: $skeleton-bg;
+            border-radius: 4px;
+            margin-bottom: 0.25rem;
+            position: relative;
+            overflow: hidden;
+
+            &:first-of-type {
+                width: 100%;
+            }
+
+            &:last-of-type {
+                width: 80%;
+            }
+
+            &::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: linear-gradient(
+                    90deg,
+                    transparent,
+                    rgba(255, 255, 255, 0.1),
+                    transparent
+                );
+                animation: shimmer 2s infinite;
+            }
+        }
+    }
+
+    &.right {
+        margin-left: auto;
+        flex-direction: row-reverse;
+        background: rgba(40, 60, 80, 0.85);
+
+        .content-skeleton {
+            align-items: flex-end;
+
+            .name-skeleton {
+                margin-left: auto;
+            }
+
+            .text-skeleton {
+                margin-left: auto;
+            }
+        }
+    }
+}
+
+// Conversation Skeleton Styles
+.conversation-skeleton {
+    @extend .skeleton-wrapper;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    margin-bottom: 0.5rem;
+
+    .avatar-skeleton {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        background: $skeleton-bg;
+        flex-shrink: 0;
+    }
+
+    .content-skeleton {
+        flex: 1;
+
+        .name-skeleton {
+            width: 140px;
+            height: 16px;
+            background: $skeleton-bg;
+            border-radius: 4px;
+            margin-bottom: 0.5rem;
+        }
+
+        .text-skeleton {
+            width: 200px;
+            height: 12px;
+            background: $skeleton-bg;
+            border-radius: 4px;
+        }
+    }
+
+    .status-skeleton {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: $skeleton-bg;
+        flex-shrink: 0;
+    }
+}
+
+// Animations
+@keyframes skeletonLoading {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+@keyframes skeletonFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+// Additional Animations
+@keyframes messageAppear {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+// Responsive Styles
+@media screen and (max-width: 480px) {
+    .message-skeleton {
+        padding: 0.75rem;
+        gap: 0.75rem;
+
+        .avatar-skeleton {
+            width: 35px;
+            height: 35px;
+        }
+
+        .content-skeleton {
+            .name-skeleton {
+                width: 100px;
+                height: 14px;
+            }
+
+            .text-skeleton {
+                height: 12px;
+            }
+        }
+    }
+
+    .conversation-skeleton {
+        padding: 0.75rem;
+        gap: 0.75rem;
+
+        .avatar-skeleton {
+            width: 40px;
+            height: 40px;
+        }
+
+        .content-skeleton {
+            .name-skeleton {
+                width: 120px;
+                height: 14px;
+            }
+
+            .text-skeleton {
+                width: 160px;
+                height: 10px;
+            }
+        }
+
+        .status-skeleton {
+            width: 10px;
+            height: 10px;
+        }
+    }
+} 

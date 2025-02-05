@@ -36,6 +36,8 @@ body,
     scrollbar-color: #6d96c3 #1a2731; /* thumb və track rəngləri */
 }
 
-@import 'signup';
 @import 'login';
+@import 'signup';
 @import 'home';
+@import 'landing';
+@import 'skeleton';

@@ -1,4 +1,3 @@
-
 import mongoose from "mongoose";
 
 const messageSchema = new mongoose.Schema({
@@ -14,7 +13,14 @@ const messageSchema = new mongoose.Schema({
     },
     message: {
         type: String,
-        required: true
+
+    },
+    image: {
+        type: {
+            data: Buffer,
+            contentType: String,
+            fileName: String
+        }
     }
 }, { timestamps: true });
 

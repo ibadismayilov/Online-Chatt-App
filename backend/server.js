@@ -1,14 +1,14 @@
 import express from 'express'
 import dotenv from 'dotenv';
-
+import cors from 'cors';
+import cookieParser from 'cookie-parser';
+import fileUpload from 'express-fileupload';
+import { app, server } from './socket/socket.js';
 import authRoutes from './routes/auth.routes.js';
 import usersRoutes from './routes/users.routes.js';
 import messageRoutes from './routes/message.routes.js';
 
 import { connectToMongoDB } from './database/connectMongoDb.js';
-
-import cookieParser from 'cookie-parser';
-import { app, server } from './socket/socket.js';
 
 import path from 'path';
 
@@ -19,7 +19,15 @@ const __dirname = path.resolve();
 dotenv.config();
 
 app.use(express.json());
+app.use(cors({
+    origin: process.env.CLIENT_URL,
+    credentials: true
+}));
 app.use(cookieParser());
+app.use(fileUpload({
+    limits: { fileSize: 10 * 1024 * 1024 }, // 10MB limit
+    useTempFiles: false
+}));
 
 app.use('/api/auth', authRoutes);
 app.use('/api/messages', messageRoutes);

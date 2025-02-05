@@ -6,12 +6,13 @@ import express from 'express';
 const app = express();
 
 const server = http.createServer(app);
-const io = new Server(server, {
+const io = new Server(httpServer, {
     cors: {
-        origin: ['http://localhost:3000, https://online-chatt-app-7.onrender.com/'],
-        methods: ['GET', 'POST']
-    }
-});
+      origin: process.env.CLIENT_URL || "http://localhost:3000", // VITE frontend URL
+      methods: ["GET", "POST"],
+      credentials: true,
+    },
+  });
 
 export const getReceiverSocketID = (receiverID) => {
 	return userSocketMap[receiverID];

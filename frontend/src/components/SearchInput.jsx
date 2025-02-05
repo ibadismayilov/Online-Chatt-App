@@ -3,6 +3,8 @@ import useGetConversations from '../hooks/useGetConversations';
 import useConversation from '../zustand/useConversation';
 import toast from 'react-hot-toast';
 
+import { RiUserSearchLine } from "react-icons/ri";
+
 const SearchInput = () => {
   const [search, setSearch] = useState('');
   const { setSelectedConversation } = useConversation();
@@ -38,7 +40,9 @@ const SearchInput = () => {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
-        <button type="submit">Search</button>
+        <button type="submit">
+          <RiUserSearchLine className='search-icon' />
+        </button>
       </form>
     </div>
   );

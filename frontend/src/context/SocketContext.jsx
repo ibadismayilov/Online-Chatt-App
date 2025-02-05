@@ -16,28 +16,33 @@ export const SocketContextProvider = ({ children }) => {
 
     useEffect(() => {
         if (authUser) {
-            const socket = io('http://localhost:5000', {
+            // Dinamik URL istifadə et (Render və ya Lokal mühit üçün)
+            const socketUrl = import.meta.env.VITE_SOCKET_URL || 'http://localhost:5000';  // Render üçün URL təyin et
+
+            const socket = io(socketUrl, {
                 query: {
                     userID: authUser._id
-                }
+                },
+                transports: ['websocket'], // WebSocket ilə əlaqə qurulmasını təmin et
+                secure: true, // HTTPS ilə əlaqə qur
             });
 
             setSocket(socket);
 
             socket.on('getOnlineUser', (users) => {
                 setOnlineUsers(users);
-            })
+            });
 
-            return () => socket.close();
+            return () => socket.close(); // Component çıxarılarkən bağlantını kəs
         } else {
             if (socket) {
                 socket.close();
                 setSocket(null);
             }
         }
-    }, [authUser])
+    }, [authUser]);
 
     return <SocketContext.Provider value={{ socket, onlineUsers }}>
         {children}
-    </SocketContext.Provider>
-}
+    </SocketContext.Provider>;
+};

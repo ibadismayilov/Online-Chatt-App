@@ -3,30 +3,50 @@ import Messages from './Messages'
 import MessagesInput from './MessagesInput'
 import useConversation from '../../zustand/useConversation';
 import { useAuthContext } from '../../context/AuthContext';
+import { IoIosArrowBack } from 'react-icons/io';
 
 const MessagesContainer = () => {
     const { selectedConversation, setSelectedConversation } = useConversation();
+    const [isActive, setIsActive] = useState(false);
 
     useEffect(() => {
-        return () => setSelectedConversation();
-    }, [setSelectedConversation]);
+        if (selectedConversation) {
+            setIsActive(true);
+            document.querySelector('.sidebar')?.classList.add('hidden');
+        }
+    }, [selectedConversation]);
+
+    const handleBack = () => {
+        setIsActive(false);
+        setSelectedConversation(null);
+        document.querySelector('.sidebar')?.classList.remove('hidden');
+    };
 
     return (
-        <div className='messages-container'>
-            {!selectedConversation ? (<NoChatSelected />) :
-                (<>
-                    <header className='header'>
-                        <div className='user-fullname'>{selectedConversation.fullname}</div>
-                    </header>
-                    <main>
-                        <div>
-                            <Messages />
+        <div className={`messages-container ${isActive ? 'active' : ''}`}>
+            {selectedConversation ? (
+                <>
+                    <div className="header">
+                        <div className="header-left">
+                            <button className="back-button" onClick={handleBack}>
+                                <IoIosArrowBack />
+                            </button>
+                            <div className="user-avatar">
+                                <img
+                                    src={selectedConversation.profilePic}
+                                    alt={selectedConversation.fullName}
+                                />
+                            </div>
                         </div>
-                        <div className='messages-container-inputjsx'>
-                            <MessagesInput />
-                        </div>
-                    </main>
-                </>)}
+                    </div>
+                    <Messages />
+                    <MessagesInput />
+                </>
+            ) : (
+                <div className="no-messages">
+                    <NoChatSelected />
+                </div>
+            )}
         </div>
     )
 }
@@ -34,11 +54,11 @@ const MessagesContainer = () => {
 export default MessagesContainer;
 
 const NoChatSelected = () => {
-
     const { authUser } = useAuthContext();
     return (
-        <div className='d-flex align-items-center justify-content-center'>
-            <h1 style={{ color: 'white' }}>Welcome {authUser.fullname}</h1>
+        <div className='welcome-container'>
+            <h1>Welcome {authUser.fullname} 👋</h1>
+            <p>Please select a chat to start messaging</p>
         </div>
     )
 }

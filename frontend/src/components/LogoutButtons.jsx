@@ -15,7 +15,7 @@ const LogoutButtons = () => {
                     style={{ cursor: 'pointer' }}><BiLogOutCircle className='logout-icon' /></button>
 
             ) : (
-                <div>Loading...</div>
+                <div class="spinner"></div>
             )}
         </div>
     )
