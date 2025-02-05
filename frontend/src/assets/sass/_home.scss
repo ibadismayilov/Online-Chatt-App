@@ -504,7 +504,7 @@ $hover-transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .message-input {
-
+    
     .form {
         display: flex;
         align-items: center;
@@ -1177,7 +1177,7 @@ $hover-transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         top: 0;
         left: 0;
         width: 100%;
-        height: 100vh;
+        height: 100dvh;
         transform: translateX(100%);
         transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         z-index: $z-messages;
@@ -1364,7 +1364,7 @@ $hover-transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .messages {
-        height: calc(100vh - 120px);
+        height: calc(100dvh - 120px);
         padding: 1rem;
     }
 
@@ -1879,6 +1879,10 @@ $gradient: linear-gradient(135deg, #0084ff 0%, #00c6ff 100%);
                 }
             }
         }
+    }
+
+    .messages-input-container {
+
     }
 }
 
