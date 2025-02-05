@@ -23,7 +23,7 @@ export const SocketContextProvider = ({ children }) => {
                 query: {
                     userID: authUser._id
                 },
-                transports: ['websocket'], // WebSocket ilə əlaqə qurulmasını təmin et
+                transports: ['websocket'], 
                 secure: true, // HTTPS ilə əlaqə qur
             });
 
