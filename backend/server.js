@@ -1,26 +1,24 @@
-import express from 'express'
+import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import fileUpload from 'express-fileupload';
-import { app, server } from './socket/socket.js';
+import path from 'path';
+import { app, server } from './socket/socket.js'; // Buradan gəlir!
 import authRoutes from './routes/auth.routes.js';
 import usersRoutes from './routes/users.routes.js';
 import messageRoutes from './routes/message.routes.js';
-
 import { connectToMongoDB } from './database/connectMongoDb.js';
 
-import path from 'path';
-
+dotenv.config();
 const PORT = process.env.PORT || 5000;
 
 const __dirname = path.resolve();
 
-dotenv.config();
-
+// Middleware-lər
 app.use(express.json());
 app.use(cors({
-    origin: ["https://online-chatt-app-11.onrender.com", "http://localhost:3000"],
+    origin: ["https://online-chatt-app-11.onrender.com", "http://localhost:3000"], // Səhv düzəldildi
     credentials: true
 }));
 app.use(cookieParser());
@@ -29,18 +27,19 @@ app.use(fileUpload({
     useTempFiles: false
 }));
 
+// API Routs
 app.use('/api/auth', authRoutes);
 app.use('/api/messages', messageRoutes);
 app.use('/api/users', usersRoutes);
 
+// Frontend Serve
 app.use(express.static(path.join(__dirname, '/frontend/dist')));
-
 app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "frontend", "dist", "index.html"));
 });
 
-
+// **YALNIZ BİR DƏFƏ SERVERİ İŞƏ SALIRIQ!**
 server.listen(PORT, () => {
     connectToMongoDB();
-    console.log(`Server Running on part ${PORT}`)
+    console.log(`✅ Server ${PORT} portunda işləyir...`);
 });
