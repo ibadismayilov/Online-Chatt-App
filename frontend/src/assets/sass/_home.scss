@@ -330,6 +330,7 @@ $hover-transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         border-bottom: 1px solid $border-color;
         flex-shrink: 0;
 
+
         .header-left {
             display: flex;
             align-items: center;
@@ -357,12 +358,12 @@ $hover-transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
                     object-fit: cover;
                 }
             }
+        }
 
-            .user-fullname {
-                color: $primary-color;
-                font-size: $font-size-lg;
-                font-weight: 500;
-            }
+        .user-fullname {
+            color: $primary-color;
+            font-size: $font-size-lg;
+            font-weight: 500;
         }
     }
 
@@ -504,7 +505,7 @@ $hover-transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .message-input {
-    
+
     .form {
         display: flex;
         align-items: center;
@@ -645,6 +646,8 @@ $hover-transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .setting {
+    margin: auto;
+
     button {
         background: none;
         border: none;
@@ -1150,18 +1153,16 @@ $hover-transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .conversations {
-            flex: 1;
-            padding: 0.5rem;
-            overflow-y: auto;
 
             .users-list {
                 gap: 0.5rem !important;
 
                 li {
                     padding: 0.4rem;
-                    border-radius: 8px;
-                    background: #1a2731;
+                    border-radius: 0 !important;
+                    background: none;
                     border: none;
+                    border-bottom: 0.1rem solid rgb(156, 156, 156);
                     transition: background-color 0.2s;
 
                     &:active {
@@ -1193,6 +1194,7 @@ $hover-transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             flex-shrink: 0;
 
             .header-left {
+
                 gap: 0.6rem;
 
                 .back-button {
@@ -1207,6 +1209,7 @@ $hover-transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 
                 .user-fullname {
                     font-size: 1rem;
+                    color: white;
                 }
             }
         }
@@ -1227,9 +1230,16 @@ $hover-transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     .messages {
         height: calc(100vh - 140px);
         padding: 1rem;
+
+        .text-center {
+            color: white;
+            font-size: 1.1rem;
+        }
     }
 
     .conversation {
+        padding: 0rem;
+
         .users-logo {
             width: 50px;
             height: 50px;
@@ -1256,6 +1266,7 @@ $hover-transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         max-width: 85%;
 
         .message {
+
             .message-content {
                 .message-text {
                     font-size: 1rem;
@@ -1347,6 +1358,8 @@ $hover-transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         flex-direction: column;
 
         .conversation {
+            padding: 0rem;
+
             .users-logo {
                 width: 45px;
                 height: 45px;
@@ -1361,11 +1374,40 @@ $hover-transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
                 font-size: 1rem;
             }
         }
+
+        .conversations {
+
+            .users-list {
+                gap: 0.5rem !important;
+
+                li {
+                    padding: 0.4rem;
+                    border-radius: 0 !important;
+                    background: none;
+                    border: none;
+                    border-bottom: 0.1rem solid rgb(156, 156, 156);
+                    transition: background-color 0.2s;
+
+                    &:active {
+                        background: #243647;
+                    }
+                }
+            }
+        }
+
+        .setting {
+            margin: auto;
+        }
     }
 
     .messages {
         height: calc(100dvh - 120px);
         padding: 1rem;
+
+        .text-center {
+            color: white;
+            font-size: 1.1rem;
+        }
     }
 
     .message-container {
@@ -1405,7 +1447,7 @@ $hover-transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 
             .message-textarea {
                 font-size: 0.85rem;
-                padding: 0.25rem 2.5rem 0.25rem 2rem;
+                padding: 0.25rem 4.5rem 0.25rem 2rem;
                 min-height: 20px;
             }
 
@@ -1881,9 +1923,7 @@ $gradient: linear-gradient(135deg, #0084ff 0%, #00c6ff 100%);
         }
     }
 
-    .messages-input-container {
-
-    }
+    .messages-input-container {}
 }
 
 @keyframes shimmer {

@@ -34,9 +34,10 @@ const MessagesContainer = () => {
                             <div className="user-avatar">
                                 <img
                                     src={selectedConversation.profilePic}
-                                    alt={selectedConversation.fullName}
+                                    alt={selectedConversation.fullname}
                                 />
                             </div>
+                            <div className='user-fullname'>{selectedConversation.fullname}</div>
                         </div>
                     </div>
                     <Messages />

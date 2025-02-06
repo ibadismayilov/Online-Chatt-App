@@ -28,7 +28,7 @@ const Messages = () => {
 
             {loading && [...Array(2)].map((_, idx) => <MessageSkeleton key={idx} />)}
             {!loading && messages.length === 0 && (
-                <p className='text-center' style={{ color: 'white', fontSize: "25px" }}>Send a message to start the conversation</p>
+                <p className='text-center'>Send a message to start the conversation 🚀</p>
             )}
         </div>
     );

@@ -28,6 +28,7 @@ $gradient: linear-gradient(135deg, #0084ff 0%, #00c6ff 100%);
         padding: 0 1rem;
         position: relative;
         z-index: 1;
+        }
 
         .form {
             background: rgba(26, 39, 49, 0.85);
@@ -249,7 +250,7 @@ $gradient: linear-gradient(135deg, #0084ff 0%, #00c6ff 100%);
             }
         }
     }
-}
+
 
 @keyframes pulse {
     0% {
@@ -276,10 +277,10 @@ $gradient: linear-gradient(135deg, #0084ff 0%, #00c6ff 100%);
             width: 100%;
 
             .form {
-                padding: 2rem;
+                padding: 1rem;
 
                 .form-title {
-                    font-size: 1.8rem;
+                    font-size: 1.3rem;
                     margin-bottom: 2rem;
                 }
 

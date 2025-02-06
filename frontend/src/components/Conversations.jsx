@@ -13,8 +13,7 @@ const Conversations = () => {
                     <li className='list-group-item'
                         key={conversation._id}
                         conversation={conversation}
-                        lastIndex={index === conversations.length - 1}
-                    >
+                        lastIndex={index === conversations.length - 1}>
                         <Conversation conversation={conversation} lastIndex={index === conversations.length - 1} />
                     </li>
                 ))}
