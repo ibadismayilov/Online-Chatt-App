@@ -85,7 +85,7 @@ const MessagesInput = () => {
                             className="emoji-button"
                             onClick={() => setShowPicker(!showPicker)}
                         >
-                            {!showPicker ? '😀' : '❌'}
+                            {!showPicker ? <div className='open-emoji hidden'>😀</div> : <div className='close-emoji setting'>❌</div>}
                         </button>
 
                         <button 
