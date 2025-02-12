@@ -2,6 +2,7 @@
 import User from "../models/user.model.js";
 import bcrypt from 'bcryptjs';
 import generateTokenAndSetCookie from "../utils/generateToken.js";
+import generateCustomID from "../utils/generateCustomID.js";
 
 export const signup = async (req, res, body) => {
     try {
@@ -25,7 +26,10 @@ export const signup = async (req, res, body) => {
         const boyProfilePic = `https://avatar.iran.liara.run/public/boy?username=${username}`;
         const girlProfilePic = `https://avatar.iran.liara.run/public/girl?username=${username}`;
 
+        const customID = await generateCustomID();
+
         const newUser = new User({
+            customID,
             fullname,
             username,
             password: hashedPassword,
@@ -40,6 +44,7 @@ export const signup = async (req, res, body) => {
 
             res.status(201).json({
                 _id: newUser._id,
+                customID: newUser.customID,
                 fullname: newUser.fullname,
                 username: newUser.username,
                 profilePic: newUser.profilePic
@@ -73,6 +78,7 @@ export const loginUser = async (req, res) => {
 
         res.status(200).json({
             _id: user._id,
+            customID: user.customID,
             fullname: user.fullname,
             username: user.username,
             profilePic: user.profilePic
@@ -88,13 +94,13 @@ export const loginUser = async (req, res) => {
 export const logout = async (req, res) => {
     try {
 
-        res.cookie('jwt', '', {maxAge: 0});
+        res.cookie('jwt', '', { maxAge: 0 });
         return res.status(200).json({ message: 'Logout out successfuly' });
 
     } catch (error) {
 
         console.log('Error in logout controller', error.message);
         return res.status(500).json({ error: 'Internal user Data' });
-        
+
     }
 }

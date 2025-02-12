@@ -2,6 +2,11 @@
 import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema({
+    customID: {
+        type: String,
+        unique: true,
+        required: true
+    },
     fullname: {
         type: String,
         required: true
@@ -24,7 +29,11 @@ const userSchema = new mongoose.Schema({
     profilePic: {
         type: String,
         default: ''
-    }
+    },
+    contacts: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }]
 }, { timestamps: true });
 
 const User = mongoose.model('User', userSchema);

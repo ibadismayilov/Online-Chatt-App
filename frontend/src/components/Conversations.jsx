@@ -1,25 +1,23 @@
-import React from 'react'
-import Conversation from './Conversation'
-import useGetConversations from '../hooks/useGetConversations';
+import React from 'react';
+import Conversation from './Conversation';
+import useGetContacts from '../hooks/useGetContacs'; 
 import ConversationsSkeleton from './skeleton/ConversationsSkeleton';
 
 const Conversations = () => {
-    const { loading, conversations } = useGetConversations();
+    const { loading, contacts } = useGetContacts();
 
     return (
-        <div className='conversations'>
+        <div className='conversations mt-3'>
             <ul className='users-list'>
-                {conversations.map((conversation, index) => (
+                {contacts.map((conversation, index) => (
                     <li className='list-group-item'
-                        key={conversation._id}
-                        conversation={conversation}
-                        lastIndex={index === conversations.length - 1}>
-                        <Conversation conversation={conversation} lastIndex={index === conversations.length - 1} />
+                        key={conversation._id}>
+                        <Conversation conversation={conversation} lastIndex={index === contacts.length - 1} />
                     </li>
                 ))}
-                {loading ? [...Array(5)].map((_, idx) =>
-                    <ConversationsSkeleton />
-                ) : null}
+                {loading && [...Array(5)].map((_, idx) =>
+                    <ConversationsSkeleton key={idx} />
+                )}
             </ul>
         </div>
     )

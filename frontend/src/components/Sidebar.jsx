@@ -1,19 +1,19 @@
 import React from 'react'
 import SearchInput from './SearchInput'
 import Conversations from './Conversations'
-import Settings from './Settings'
+import SidebarHeader from './SidebarHeader'
 
 const Sidebar = () => {
     return (
         <div className='sidebar' >
-            <div className=''>
-                <SearchInput />
+            <div>
+                <SidebarHeader/>
             </div>
+            {/* <div className=''>
+                <SearchInput />
+            </div> */}
             <div>
                 <Conversations />
-            </div>
-            <div className='setting-buttons'>
-                <Settings />
             </div>
         </div>
     )

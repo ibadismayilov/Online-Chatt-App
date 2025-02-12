@@ -1,39 +1,78 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import useConversation from '../zustand/useConversation';
 import { useSocketContext } from '../context/SocketContext';
+import useAddContact from '../hooks/useAddContacts';
+import useGetContacts from '../hooks/useGetContacs';
+import useRemoveContacts from '../hooks/useRemoveContacts';
 
-const Conversation = ({ conversation, lastIndex }) => {
-
+const Conversation = ({ conversation }) => {
     const { selectedConversation, setSelectedConversation } = useConversation();
-
-    const isSelected = selectedConversation?._id === conversation._id;
-
-    const { socket, onlineUsers } = useSocketContext();
+    const { onlineUsers } = useSocketContext();
     const isOnline = onlineUsers.includes(conversation._id);
-
     const [isOpen, setIsOpen] = useState(false);
+    const { addContact, loading: addLoading } = useAddContact();
+    const { contacts } = useGetContacts();
+    const { removeContacts, loading: removeLoading } = useRemoveContacts();
+    const isAdded = contacts.some((c) => c._id === conversation._id);
 
     return (
-        <div className='conversation' onClick={() => setSelectedConversation(conversation)} >
-            <div className='d-flex align-items-center'>
-                <div className='users-logo'>
-                    <img src={conversation.profilePic} alt="Profile Small" className="small-image" onClick={() => setIsOpen(true)} />
+        <div className='search-result-item'>
+            <div className="user-avatar-container" onClick={() => setSelectedConversation(conversation)}>
+                <img 
+                    src={conversation.profilePic} 
+                    alt={conversation.fullname}
+                    className="avatar-image"
+                    onClick={() => setIsOpen(true)}
+                />
+                <span className={`status-indicator ${isOnline ? 'online' : 'offline'}`} />
+            </div>
 
-                    <div>
-                        {isOpen && (
-                            <div className="modal-effect" onClick={() => setIsOpen(false)}>
-                                <img src={conversation.profilePic} alt="Profile Large" className="large-image" />
-                            </div>
-                        )}
+            <div className='user-info' onClick={() => setSelectedConversation(conversation)}>
+                <span className='name'>{conversation.fullname}</span>
+                <span className='id'>@{conversation.customID}</span>
+            </div>
+
+            <div className="action-buttons">
+                {isAdded ? (
+                    <button
+                        type='button'
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            removeContacts(conversation._id);
+                        }}
+                        disabled={removeLoading}
+                        className="remove-button"
+                    >
+                        {removeLoading ? 'Silinir...' : 'Sil'}
+                    </button>
+                ) : (
+                    <button
+                        type='button'
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            addContact(conversation._id);
+                        }}
+                        disabled={addLoading}
+                        className="add-button"
+                    >
+                        {addLoading ? 'Əlavə edilir...' : 'Əlavə et'}
+                    </button>
+                )}
+            </div>
+
+            {isOpen && (
+                <div className="modal-overlay" onClick={() => setIsOpen(false)}>
+                    <div className="modal-content">
+                        <img 
+                            src={conversation.profilePic} 
+                            alt={conversation.fullname} 
+                            className="large-image"
+                        />
                     </div>
                 </div>
-                <div className='users-name mx-4'>
-                    <p style={{ color: 'white' }}>{conversation.fullname}</p>
-                </div>
-            </div>
-            <div className={`online-user ${isOnline ? 'online' : 'offline'}`}></div>
+            )}
         </div>
-    )
-}
+    );
+};
 
 export default Conversation;

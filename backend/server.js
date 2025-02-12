@@ -4,10 +4,14 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import fileUpload from 'express-fileupload';
 import path from 'path';
+
 import { app, server } from './socket/socket.js';
+
 import authRoutes from './routes/auth.routes.js';
 import usersRoutes from './routes/users.routes.js';
 import messageRoutes from './routes/message.routes.js';
+import contactsRoutes from './routes/contacts.routes.js'
+
 import { connectToMongoDB } from './database/connectMongoDb.js';
 
 dotenv.config();
@@ -31,6 +35,8 @@ app.use(fileUpload({
 app.use('/api/auth', authRoutes);
 app.use('/api/messages', messageRoutes);
 app.use('/api/users', usersRoutes);
+app.use('/api/contacts', contactsRoutes);;
+
 
 // Frontend Serve
 app.use(express.static(path.join(__dirname, '/frontend/dist')));

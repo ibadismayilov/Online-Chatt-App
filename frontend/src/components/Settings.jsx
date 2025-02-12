@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { RiSettings4Line } from "react-icons/ri";
 import LogoutButtons from './LogoutButtons';
+import { VscSettings } from "react-icons/vsc";
 import { MdOutlineAccountCircle } from "react-icons/md";
 
 const Settings = () => {
@@ -14,7 +15,7 @@ const Settings = () => {
     return (
         <div className='setting'>
             <button type='button' onClick={toggle}>
-                <RiSettings4Line className='setting-icon' />
+                <VscSettings className='setting-icon' />
             </button>
             <div className='setting-list'>
                 <ul className={`elements ${setting ? 'open' : ''}`}>

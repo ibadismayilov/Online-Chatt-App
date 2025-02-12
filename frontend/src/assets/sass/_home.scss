@@ -1,27 +1,31 @@
+// Əsas rəng dəyişənləri
 $primary-bg: #111a22;
 $secondary-bg: #1a2731;
 $dark-bg: #0f171d;
 $hover-bg: #243647;
 $active-bg: #2c4056;
 
-$primary-color: white;
-$secondary-color: rgba(255, 255, 255, 0.7);
-$muted-color: rgba(255, 255, 255, 0.5);
+// Text rəngləri
+$text: #ffffff;
+$text-muted: #949BA4;
+$text-secondary: rgba(255, 255, 255, 0.7);
+$text-primary: #ffffff;
 
+// Accent rənglər
 $accent-blue: #0084ff;
 $online-green: #22c55e;
 $offline-red: #ef4444;
 
+// Border və kölgələr
 $border-color: rgba(255, 255, 255, 0.1);
 $shadow-color: rgba(0, 0, 0, 0.1);
 
-$transition-fast: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-$transition-normal: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-$transition-bounce: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-
-$mobile: 576px;
-$tablet: 768px;
-$small-mobile: 400px;
+// Font ölçüləri
+$font-size-xs: 0.75rem;
+$font-size-sm: 0.85rem;
+$font-size-md: 0.95rem;
+$font-size-lg: 1.1rem;
+$font-size-xl: 1.25rem;
 
 // Layout Variables
 $header-height: 60px;
@@ -38,11 +42,6 @@ $spacing-md: 1rem;
 $spacing-lg: 1.5rem;
 
 // Font Sizes
-$font-size-xs: 0.75rem;
-$font-size-sm: 0.85rem;
-$font-size-md: 0.95rem;
-$font-size-lg: 1.1rem;
-$font-size-xl: 1.25rem;
 $font-size-xxl: 2rem;
 
 // Z-index levels
@@ -54,6 +53,16 @@ $z-modal: 2000;
 // Additional Variables
 $glow-shadow: 0 0 20px rgba(0, 132, 255, 0.15);
 $hover-transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+
+// Transition dəyişənləri
+$transition-fast: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+$transition-normal: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+$transition-bounce: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+// Media query breakpoints
+$mobile: 576px;
+$tablet: 768px;
+$small-mobile: 400px;
 
 // Mixins
 @mixin flex-center {
@@ -180,30 +189,92 @@ $hover-transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     border-right: 1px solid $border-color;
     overflow: hidden;
 
-    .search-input-sidebar {
-        padding: 0 0.2rem;
-        margin-bottom: 0.5rem;
-        flex-shrink: 0;
 
-        .form {
-            input {
-                height: 38px;
-                font-size: 0.95rem;
-                background: $secondary-bg;
-                border-radius: 8px;
-                padding: 0 0.8rem !important;
-                transition: $transition-fast;
-                color: $primary-color;
+    .sidebar-header {
+        padding: 16px;
+        border-bottom: 1px solid $border-color;
+        background: $dark-bg;
 
-                &:focus {
-                    background: $hover-bg;
-                    box-shadow: 0 0 0 2px rgba($accent-blue, 0.3);
-                }
-
-                &::placeholder {
-                    color: $muted-color;
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            
+            // Logo
+            .logo {
+                h2 {
+                    color: $text-primary;
+                    font-size: $font-size-lg;
+                    font-weight: 600;
                 }
             }
+
+            // Actions
+            .header-actions {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+
+                .action-button {
+                    @include button-reset;
+                    width: 35px;
+                    height: 35px;
+                    border-radius: $border-radius-md;
+                    color: $text-secondary;
+                    @include flex-center;
+                    transition: $transition-fast;
+                    
+                    &:hover {
+                        background: $hover-bg;
+                        color: $text-primary;
+                    }
+
+                    svg {
+                        font-size: 20px;
+                    }
+                }
+
+                // Options menu
+                .options-container {
+                    position: relative;
+
+                    .options-menu {
+                        position: absolute;
+                        top: 100%;
+                        right: 0;
+                        margin-top: 8px;
+                        background: $secondary-bg;
+                        border-radius: $border-radius-md;
+                        border: 1px solid $border-color;
+                        min-width: 150px;
+                        overflow: hidden;
+                        animation: slideDown 0.2s ease;
+
+                        ul {
+                            list-style: none;
+                            padding: 0;
+                            margin: 0;
+
+                            li {
+                                padding: 12px 16px;
+                                color: $text-primary;
+                                cursor: pointer;
+                                transition: $transition-fast;
+
+                                &:hover {
+                                    background: $hover-bg;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // Search container
+        .search-container {
+            margin-top: 12px;
+            animation: slideDown 0.3s ease;
         }
     }
 }
@@ -282,7 +353,7 @@ $hover-transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 
         p {
             font-size: 0.95rem;
-            color: $primary-color;
+            color: $text-primary;
             margin: 0;
             padding: 0;
         }
@@ -339,7 +410,7 @@ $hover-transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             .back-button {
                 @include button-reset;
                 @include interactive-element;
-                color: $primary-color;
+                color: $text-primary;
                 font-size: $font-size-xl;
                 padding: $spacing-xs;
                 opacity: 0.8;
@@ -361,7 +432,7 @@ $hover-transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .user-fullname {
-            color: $primary-color;
+            color: $text-primary;
             font-size: $font-size-lg;
             font-weight: 500;
         }
@@ -425,13 +496,13 @@ $hover-transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 
             .message-content {
                 .message-text {
-                    color: $primary-color;
+                    color: $text-primary;
                 }
             }
 
             .message-info {
                 gap: 5px;
-                color: $secondary-color;
+                color: $text-secondary;
             }
         }
     }
@@ -445,12 +516,12 @@ $hover-transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 
             .message-content {
                 .message-text {
-                    color: $primary-color;
+                    color: $text-primary;
                 }
             }
 
             .message-info {
-                color: $secondary-color;
+                color: $text-secondary;
             }
         }
     }
@@ -671,8 +742,6 @@ $hover-transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         position: relative;
 
         .elements {
-            position: absolute;
-            bottom: 40px;
             padding: 0;
             margin: 0;
             gap: 10px;
@@ -680,7 +749,6 @@ $hover-transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             background: #121f2a;
             flex-direction: column;
             border-radius: 5px;
-
             transition: opacity 0.2s ease-in-out;
             visibility: hidden;
             opacity: 0;
@@ -791,7 +859,7 @@ $hover-transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         background: transparent;
         resize: none;
         outline: none;
-        color: $primary-color;
+        color: $text-primary;
         min-height: 24px;
         max-height: 100px;
         padding: $spacing-xs 3.5rem $spacing-xs 3rem;
@@ -800,7 +868,7 @@ $hover-transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         transition: $transition-fast;
 
         &::placeholder {
-            color: $muted-color;
+            color: $text-secondary;
         }
     }
 
@@ -817,7 +885,7 @@ $hover-transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             @include interactive-element;
             padding: $spacing-sm;
             border-radius: 50%;
-            color: $primary-color;
+            color: $text-primary;
         }
 
         .emoji-button {
@@ -1153,6 +1221,7 @@ $hover-transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .conversations {
+            overflow-y: scroll !important;
 
             .users-list {
                 gap: 0.5rem !important;
@@ -1222,8 +1291,59 @@ $hover-transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .messages-input-container {
-            padding: 0.6rem;
-            flex-shrink: 0;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: $secondary-bg;
+            padding: 8px;
+            border-top: 1px solid $border-color;
+            
+            .messages-input-form {
+                .input-area {
+                    background: darken($secondary-bg, 3%);
+                    border-radius: 24px;
+                    padding: 8px 12px;
+                    min-height: 44px;
+                    max-height: 120px;
+
+                    .message-textarea {
+                        padding: 4px 80px 4px 40px;
+                        max-height: 100px;
+                        overflow-y: auto;
+                        -webkit-appearance: none; // iOS üçün default stili aradan qaldırır
+                        border-radius: 0; // iOS üçün default stili aradan qaldırır
+                        
+                        &:focus {
+                            outline: none;
+                        }
+                    }
+
+                    .input-actions {
+                        right: 12px;
+                        button {
+                            width: 32px;
+                            height: 32px;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+
+                            &:active {
+                                transform: scale(0.95);
+                            }
+                        }
+                    }
+
+                    .image-upload-label {
+                        left: 12px;
+                        width: 32px;
+                        height: 32px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                    }
+                }
+            }
         }
     }
 
@@ -1311,27 +1431,20 @@ $hover-transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
                 }
             }
         }
-
-        .emoji-button {
-            .close-emoji.setting {
-                position: relative;
-                top: -400px;
-                right: -35px;
-            }
-        }
     }
 
+    // Emoji picker mobil görünüşü
     .emoji-picker-container {
         position: fixed;
         bottom: 0;
         left: 0;
         right: 0;
-        transform: none;
-
-        em-emoji-picker {
-            width: 100% !important;
-            border-radius: 20px 20px 0 0;
-        }
+        z-index: 1000;
+        background: $secondary-bg;
+        border-top-left-radius: 16px;
+        border-top-right-radius: 16px;
+        box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.2);
+        animation: slideUp 0.3s ease;
     }
 }
 
@@ -1361,12 +1474,11 @@ $hover-transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         height: 100vh;
         max-height: 100vh;
         padding: 1rem;
-        margin: 0;
         display: flex;
         flex-direction: column;
 
         .conversations {
-            overflow-y: auto;
+            overflow-y: scroll !important;
 
             .users-list {
                 gap: 0.5rem !important;
@@ -1470,12 +1582,6 @@ $hover-transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
                     .emoji-button {
                         font-size: 1rem;
                     }
-
-                    .close-emoji.setting {
-                        position: relative;
-                        top: -400px;
-                        right: -35px;
-                    }
                 }
             }
 
@@ -1491,8 +1597,8 @@ $hover-transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .emoji-picker-container {
-        right: -75px;
-        bottom: 70px;
+        right: 0;
+        bottom: 0;
         transform: scale(0.8);
         transform-origin: bottom right;
     }
@@ -1513,9 +1619,6 @@ $hover-transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 // Home Variables
-$primary-bg: #111a22;
-$secondary-bg: #1a2731;
-$accent-blue: #0084ff;
 $gradient: linear-gradient(135deg, #0084ff 0%, #00c6ff 100%);
 
 .home-wrapper {
@@ -1966,5 +2069,399 @@ $gradient: linear-gradient(135deg, #0084ff 0%, #00c6ff 100%);
     100% {
         transform: scale(1);
         opacity: 1;
+    }
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.search-input {
+    position: relative;
+    width: 100%;
+
+    .search-container {
+        position: relative;
+        width: 100%;
+        
+        .search-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 20px;
+            color: $text-muted;
+            pointer-events: none;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 40px 12px 45px;
+            background: $secondary-bg;
+            border: 2px solid transparent;
+            border-radius: 12px;
+            color: $text;
+            font-size: $font-size-md;
+            transition: all 0.3s ease;
+
+            &::placeholder {
+                color: $text-muted;
+            }
+
+            &:focus {
+                border-color: $accent-blue;
+                background: lighten($secondary-bg, 3%);
+                box-shadow: 0 0 0 4px rgba($accent-blue, 0.1);
+            }
+        }
+
+        .clear-button {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: $text-muted;
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+
+            &:hover {
+                background: rgba($text, 0.1);
+                color: $text;
+            }
+
+            svg {
+                font-size: 20px;
+            }
+        }
+    }
+
+    .search-results {
+        position: absolute;
+        top: calc(100% + 8px);
+        left: 0;
+        right: 0;
+        background: $secondary-bg;
+        border-radius: 12px;
+        border: 1px solid $border-color;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        max-height: 300px;
+        overflow-y: auto;
+        z-index: 100;
+        animation: slideDown 0.3s ease;
+
+        .search-result-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            transition: all 0.2s ease;
+
+            &:hover {
+                background: $hover-bg;
+            }
+
+            .users-logo {
+                width: 38px;
+                height: 38px;
+                position: relative;
+
+                .small-image {
+                    width: 38px;
+                    height: 38px;
+                    border-radius: 50%;
+                    object-fit: cover;
+                }
+
+                .status-dot {
+                    position: absolute;
+                    bottom: 0;
+                    right: 0;
+                    width: 10px;
+                    height: 10px;
+                    border-radius: 50%;
+                    border: 2px solid $secondary-bg;
+
+                    &.online {
+                        background: $online-green;
+                        box-shadow: 0 0 0 2px rgba($online-green, 0.2);
+                        animation: onlinePulse 2s infinite;
+                    }
+
+                    &.offline {
+                        background: $offline-red;
+                        box-shadow: 0 0 0 2px rgba($offline-red, 0.2);
+                    }
+                }
+            }
+
+            .users-name {
+                p {
+                    color: $text;
+                    margin: 0;
+                    font-weight: 500;
+                }
+
+                .user-id {
+                    color: $text-muted;
+                    font-size: $font-size-sm;
+                }
+            }
+
+            .online-user {
+                width: 8px;
+                height: 8px;
+                border-radius: 50%;
+                margin-left: 10px;
+
+                &.online {
+                    background: $online-green;
+                    box-shadow: 0 0 0 2px rgba($online-green, 0.2);
+                    animation: onlinePulse 2s infinite;
+                }
+
+                &.offline {
+                    background: $offline-red;
+                    box-shadow: 0 0 0 2px rgba($offline-red, 0.2);
+                }
+            }
+
+            button {
+                padding: 4px 12px;
+                border-radius: 6px;
+                border: none;
+                font-size: 12px;
+                font-weight: 500;
+                cursor: pointer;
+                transition: all 0.2s ease;
+
+                &.add-button {
+                    background: $accent-blue;
+                    color: white;
+
+                    &:hover {
+                        background: darken($accent-blue, 5%);
+                    }
+
+                    &:disabled {
+                        background: lighten($accent-blue, 20%);
+                        cursor: not-allowed;
+                    }
+                }
+
+                &.remove-button {
+                    background: $offline-red;
+                    color: white;
+
+                    &:hover {
+                        background: darken($offline-red, 5%);
+                    }
+
+                    &:disabled {
+                        background: lighten($offline-red, 20%);
+                        cursor: not-allowed;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes onlinePulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba($online-green, 0.4);
+    }
+    70% {
+        box-shadow: 0 0 0 6px rgba($online-green, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba($online-green, 0);
+    }
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    animation: fadeIn 0.3s ease;
+
+    .modal-content {
+        padding: 20px;
+        border-radius: 12px;
+        animation: scaleIn 0.3s ease;
+
+        .large-image {
+            max-width: 400px;
+            max-height: 400px;
+            border-radius: 12px;
+            object-fit: cover;
+        }
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.conversations {
+    .users-list {
+        .list-group-item {
+            background: transparent;
+            border: none;
+            padding: 0;
+            margin-bottom: 8px;
+
+            &:last-child {
+                margin-bottom: 0;
+            }
+
+            .search-result-item {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                padding: 12px;
+                background: $secondary-bg;
+                border-radius: 12px;
+                cursor: pointer;
+                transition: all 0.2s ease;
+
+                &:hover {
+                    background: $hover-bg;
+                }
+
+                .user-avatar-container {
+                    position: relative;
+                    
+                    .avatar-image {
+                        width: 40px;
+                        height: 40px;
+                        border-radius: 50%;
+                        object-fit: cover;
+                    }
+
+                    .status-indicator {
+                        position: absolute;
+                        bottom: 0;
+                        right: 0;
+                        width: 12px;
+                        height: 12px;
+                        border-radius: 50%;
+                        border: 2px solid $secondary-bg;
+
+                        &.online {
+                            background-color: $online-green;
+                            box-shadow: 0 0 0 2px rgba($online-green, 0.2);
+                            animation: onlinePulse 2s infinite;
+                        }
+
+                        &.offline {
+                            background-color: $offline-red;
+                            box-shadow: 0 0 0 2px rgba($offline-red, 0.2);
+                        }
+                    }
+                }
+
+                .user-info {
+                    flex: 1;
+                    min-width: 0;
+                    display: flex;
+                    flex-direction: column;
+
+                    .name {
+                        color: $text;
+                        font-weight: 500;
+                        font-size: $font-size-md;
+                        margin-bottom: 4px;
+                    }
+
+                    .id {
+                        color: $text-muted;
+                        font-size: $font-size-sm;
+                    }
+                }
+
+                .action-buttons {
+                    margin-left: auto;
+                    display: flex;
+                    align-items: center;
+
+                    button {
+                        padding: 4px 12px;
+                        border-radius: 6px;
+                        border: none;
+                        font-size: 12px;
+                        font-weight: 500;
+                        cursor: pointer;
+                        transition: all 0.2s ease;
+
+                        &.add-button {
+                            background: $accent-blue;
+                            color: white;
+
+                            &:hover {
+                                background: darken($accent-blue, 5%);
+                            }
+
+                            &:disabled {
+                                background: lighten($accent-blue, 20%);
+                                cursor: not-allowed;
+                            }
+                        }
+
+                        &.remove-button {
+                            background: $offline-red;
+                            color: white;
+
+                            &:hover {
+                                background: darken($offline-red, 5%);
+                            }
+
+                            &:disabled {
+                                background: lighten($offline-red, 20%);
+                                cursor: not-allowed;
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }
