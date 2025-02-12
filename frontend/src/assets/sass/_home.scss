@@ -403,7 +403,9 @@ $small-mobile: 400px;
         background: $secondary-bg;
         border-bottom: 1px solid $border-color;
         flex-shrink: 0;
-        position: relative;
+        position: sticky;
+        top: 0;
+        z-index: 100;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -503,6 +505,13 @@ $small-mobile: 400px;
     // Mobile responsiveness
     @media screen and (max-width: $mobile) {
         .header {
+            position: sticky;
+            top: 0;
+            background: rgba($secondary-bg, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 1px 10px rgba(0, 0, 0, 0.1);
+            
             padding: 0.6rem;
 
             .header-left {
@@ -692,7 +701,6 @@ $small-mobile: 400px;
 }
 
 .message-input {
-
     .form {
         display: flex;
         align-items: center;
@@ -778,17 +786,39 @@ $small-mobile: 400px;
                 }
 
                 .emoji-close-button {
-                    position: relative;
-                    top: -250px;
-                    background: none;
-                    outline: none;
+                    position: fixed;
+                    top: 10px;
+                    right: 10px;
+                    background: rgba($dark-bg, 0.8);
                     border: none;
+                    outline: none;
+                    padding: 8px;
+                    border-radius: 50%;
+                    cursor: pointer;
+                    z-index: $z-emoji-picker + 1;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    transition: $transition-fast;
+                    color: $text;
                     font-size: 20px;
+
+                    &:hover {
+                        background: rgba($dark-bg, 0.95);
+                        transform: scale(1.1);
+                    }
+
+                    &:active {
+                        transform: scale(0.95);
+                    }
                 }
 
                 .emoji-picker {
-                    position: relative;
-                    top: -250px;
+                    position: fixed;
+                    bottom: 0;
+                    left: 0;
+                    right: 0;
+                    z-index: $z-emoji-picker;
                 }
             }
         }
@@ -1021,7 +1051,6 @@ $small-mobile: 400px;
         }
     }
 }
-
 
 .emoji-picker-container {
     position: absolute;
@@ -1505,6 +1534,19 @@ $small-mobile: 400px;
         em-emoji-picker {
             width: 100% !important;
             border-radius: 20px 20px 0 0;
+        }
+    }
+
+    .message-input {
+        .input-area {
+            .input-actions {
+                .emoji-close-button {
+                    top: 8px;
+                    right: 8px;
+                    padding: 6px;
+                    font-size: 18px;
+                }
+            }
         }
     }
 }
@@ -2102,8 +2144,6 @@ $gradient: linear-gradient(135deg, #0084ff 0%, #00c6ff 100%);
             }
         }
     }
-
-    .messages-input-container {}
 }
 
 @keyframes shimmer {
