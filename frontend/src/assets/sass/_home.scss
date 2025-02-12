@@ -267,6 +267,11 @@ $small-mobile: 400px;
                                 &:hover {
                                     background: $hover-bg;
                                 }
+
+                                a {
+                                    color: white;
+                                    text-decoration: none;
+                                }
                             }
                         }
                     }
@@ -786,7 +791,7 @@ $small-mobile: 400px;
                 }
 
                 .emoji-close-button {
-                    position: absolute;
+                    position: fixed;
                     top: 10px;
                     right: 10px;
                     background: rgba($dark-bg, 0.8);
@@ -814,8 +819,8 @@ $small-mobile: 400px;
                 }
 
                 .emoji-picker {
-                    position: absolute;
-                    bottom: 100%;
+                    position: fixed;
+                    bottom: 0;
                     left: 0;
                     right: 0;
                     z-index: $z-emoji-picker;
@@ -1016,7 +1021,6 @@ $small-mobile: 400px;
     }
 
     .input-actions {
-        position: relative;
         @include absolute-center;
         right: $spacing-md;
         display: flex;
@@ -1542,6 +1546,8 @@ $small-mobile: 400px;
         .input-area {
             .input-actions {
                 .emoji-close-button {
+                    top: 8px;
+                    right: 8px;
                     padding: 6px;
                     font-size: 18px;
                 }

@@ -1,8 +1,13 @@
 import React from 'react';
 import { IoArrowBack, IoCamera } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
+import { useAuthContext } from '../context/AuthContext';
 
 const Profile = () => {
+    const { authUser } = useAuthContext();
+
+    if (!authUser) return null;
+
     return (
         <div className="profile-wrapper">
             <div className="profile-container">
@@ -17,7 +22,7 @@ const Profile = () => {
                     <div className="profile-avatar-section">
                         <div className="avatar-container">
                             <img 
-                                src="https://example.com/avatar.jpg" 
+                                src={authUser.profilePic} 
                                 alt="Profile" 
                                 className="profile-avatar"
                             />
@@ -48,7 +53,7 @@ const Profile = () => {
                             <input 
                                 type="text"
                                 placeholder="Ad Soyad"
-                                value="Farid Rahimli"
+                                defaultValue={authUser.fullname}
                                 readOnly
                             />
                         </div>
@@ -58,7 +63,7 @@ const Profile = () => {
                             <input 
                                 type="text"
                                 placeholder="@username"
-                                value="@52JdL"
+                                defaultValue={authUser.customID || "@" + authUser.username}
                                 readOnly
                             />
                         </div>
@@ -68,6 +73,7 @@ const Profile = () => {
                             <textarea 
                                 placeholder="Özünüz haqqında məlumat..."
                                 rows="4"
+                                defaultValue={authUser.bio}
                             />
                         </div>
 
@@ -76,7 +82,7 @@ const Profile = () => {
                             <input 
                                 type="email"
                                 placeholder="Email"
-                                value="example@mail.com"
+                                defaultValue={authUser.email}
                                 readOnly
                             />
                         </div>

@@ -16,10 +16,14 @@
             margin-bottom: 2rem;
 
             .back-button {
+                display: flex;
+                align-items: center;
+                justify-content: center;    
                 @include button-reset;
                 color: $text;
                 font-size: 1.5rem;
-                padding: 0.8rem;
+                width: 40px;
+                height: 40px;
                 border-radius: 50%;
                 transition: $transition-fast;
                 background: rgba($secondary-bg, 0.5);
@@ -99,7 +103,6 @@
             }
 
             .profile-info-section {
-                max-width: 500px;
                 margin: 0 auto;
 
                 .profile-stats {
