@@ -12,7 +12,7 @@ const LogoutButtons = () => {
                 <button
                     onClick={logout}
                     type='button'
-                    style={{ cursor: 'pointer' }}><BiLogOutCircle className='logout-icon' /></button>
+                    style={{ cursor: 'pointer' }}>Logout</button>
 
             ) : (
                 <div class="spinner"></div>

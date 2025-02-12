@@ -785,13 +785,12 @@ $small-mobile: 400px;
 }
 
 .logout-button {
-    display: flex;
-    justify-content: center;
 
-    .logout-icon {
-        color: white !important;
-        font-size: 24px;
-
+    button {
+ color: white;
+        outline: none;
+        border: none;
+        background: none;
     }
 }
 
@@ -1195,8 +1194,6 @@ $small-mobile: 400px;
                 border-radius: 0;
                 padding: 0;
                 height: 100vh;
-                position: relative;
-                overflow: hidden;
             }
         }
     }
@@ -1248,9 +1245,8 @@ $small-mobile: 400px;
         left: 0;
         width: 100%;
         height: 100dvh;
-        // transform: translateX(100%);
         transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        z-index: $z-messages;
+        z-index: 1000;
         margin: 0;
         padding: 0;
 
@@ -1298,21 +1294,41 @@ $small-mobile: 400px;
             background: $secondary-bg;
             padding: 8px;
             border-top: 1px solid $border-color;
+            z-index: 1001;
+            -webkit-transform: translateZ(0);
+            transform: translateZ(0);
             
             .messages-input-form {
+                position: relative;
+                z-index: 1002;
+                
                 .input-area {
                     background: darken($secondary-bg, 3%);
                     border-radius: 24px;
                     padding: 8px 12px;
+                    position: relative;
+                    display: flex;
+                    align-items: center;
                     min-height: 44px;
                     max-height: 120px;
+                    -webkit-tap-highlight-color: transparent;
 
                     .message-textarea {
+                        flex: 1;
+                        background: transparent;
+                        border: none;
+                        color: $text;
+                        font-size: $font-size-md;
                         padding: 4px 80px 4px 40px;
+                        resize: none;
                         max-height: 100px;
                         overflow-y: auto;
-                        -webkit-appearance: none; // iOS üçün default stili aradan qaldırır
-                        border-radius: 0; // iOS üçün default stili aradan qaldırır
+                        -webkit-appearance: none;
+                        border-radius: 0;
+                        position: relative;
+                        z-index: 1;
+                        -webkit-overflow-scrolling: touch;
+                        touch-action: manipulation;
                         
                         &:focus {
                             outline: none;
@@ -1320,31 +1336,65 @@ $small-mobile: 400px;
                     }
 
                     .input-actions {
+                        position: absolute;
                         right: 12px;
+                        top: 50%;
+                        transform: translateY(-50%);
+                        display: flex;
+                        align-items: center;
+                        gap: 8px;
+                        z-index: 2;
+
                         button {
                             width: 32px;
                             height: 32px;
+                            padding: 0;
+                            border: none;
+                            background: transparent;
+                            color: $text-secondary;
                             display: flex;
                             align-items: center;
                             justify-content: center;
+                            transition: $transition-fast;
 
                             &:active {
                                 transform: scale(0.95);
+                            }
+
+                            svg {
+                                font-size: 20px;
                             }
                         }
                     }
 
                     .image-upload-label {
+                        position: absolute;
                         left: 12px;
+                        top: 50%;
+                        transform: translateY(-50%);
+                        z-index: 2;
                         width: 32px;
                         height: 32px;
                         display: flex;
                         align-items: center;
                         justify-content: center;
+                        color: $text-secondary;
                     }
                 }
             }
+
+            .emoji-picker-container {
+                z-index: 1003;
+            }
+
+            .image-preview {
+                z-index: 1003;
+            }
         }
+    }
+
+    .messages-container {
+        padding-bottom: calc(60px + env(safe-area-inset-bottom));
     }
 
     .messages {
@@ -1433,7 +1483,6 @@ $small-mobile: 400px;
         }
     }
 
-    // Emoji picker mobil görünüşü
     .emoji-picker-container {
         position: fixed;
         bottom: 0;
@@ -1568,7 +1617,7 @@ $small-mobile: 400px;
 
             .message-textarea {
                 font-size: 0.85rem;
-                padding: 0.25rem 4.5rem 0.25rem 2rem;
+                padding: 0.25rem 4.5rem;
                 min-height: 20px;
             }
 

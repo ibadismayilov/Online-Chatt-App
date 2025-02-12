@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import SearchInput from './SearchInput'
 import { IoSearchOutline } from "react-icons/io5";
 import { IoEllipsisVerticalSharp } from "react-icons/io5";
-
+import LogoutButtons from './LogoutButtons';
 const SidebarHeader = () => {
     const [showSearch, setShowSearch] = useState(false);
     const [showOptions, setShowOptions] = useState(false);
@@ -37,7 +37,9 @@ const SidebarHeader = () => {
                                 <ul>
                                     <li>Profile</li>
                                     <li>Settings</li>
-                                    <li>Logout</li>
+                                    <li>
+                                        <LogoutButtons />
+                                    </li>
                                 </ul>
                             </div>
                         )}

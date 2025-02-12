@@ -12,37 +12,86 @@ const MessageInput = () => {
     const { loading, sendMessage } = useSendMessage();
     const imageRef = useRef(null);
     const textareaRef = useRef(null);
+    const formRef = useRef(null);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        e.stopPropagation();
+        
         if (!message && !image) return;
+        
+        // Mesajı göndər
         await sendMessage(message, image);
+        
+        // State'ləri sıfırla
         setMessage("");
         setImage(null);
         setShowEmoji(false);
-        // Klavyaturanı bağlama
+
+        // Bütün cihazlar üçün klaviatura və focus davranışı
         if (textareaRef.current) {
-            textareaRef.current.blur();
+            // Android və iOS üçün focus saxla
+            textareaRef.current.focus();
+            
+            // Scroll pozisiyasını qoru
+            const scrollPos = window.scrollY;
+            
+            // Timeout ilə klaviatura problemini həll et
+            setTimeout(() => {
+                window.scrollTo(0, scrollPos);
+                textareaRef.current.focus();
+            }, 100);
         }
     };
 
-    const handleKeyDown = (e) => {
-        if (e.key === 'Enter' && !e.shiftKey) {
-            e.preventDefault();
-            handleSubmit(e);
-        }
-    };
+    // Klaviatura və focus davranışını idarə et
+    useEffect(() => {
+        const handleFocusChange = () => {
+            if (document.hasFocus() && textareaRef.current) {
+                textareaRef.current.focus();
+            }
+        };
+
+        const handleVisibilityChange = () => {
+            if (!document.hidden && textareaRef.current) {
+                textareaRef.current.focus();
+            }
+        };
+
+        // Event listener'ları əlavə et
+        document.addEventListener('focusin', handleFocusChange);
+        document.addEventListener('visibilitychange', handleVisibilityChange);
+        window.addEventListener('focus', handleFocusChange);
+
+        // Cleanup
+        return () => {
+            document.removeEventListener('focusin', handleFocusChange);
+            document.removeEventListener('visibilitychange', handleVisibilityChange);
+            window.removeEventListener('focus', handleFocusChange);
+        };
+    }, []);
 
     // Textarea auto-resize
     useEffect(() => {
         if (textareaRef.current) {
             textareaRef.current.style.height = 'auto';
-            textareaRef.current.style.height = textareaRef.current.scrollHeight + 'px';
+            textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
         }
     }, [message]);
 
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            const submitEvent = new Event('submit', { 
+                bubbles: true, 
+                cancelable: true 
+            });
+            formRef.current.dispatchEvent(submitEvent);
+        }
+    };
+
     return (
-        <form className='messages-input-form' onSubmit={handleSubmit}>
+        <form ref={formRef} className='messages-input-form' onSubmit={handleSubmit}>
             <div className="input-area">
                 <label className="image-upload-label">
                     <IoImageOutline className='upload-icon' />
@@ -74,7 +123,18 @@ const MessageInput = () => {
                         <IoMdHappy />
                     </button>
 
-                    <button type='submit' disabled={loading}>
+                    <button 
+                        type='submit' 
+                        disabled={loading}
+                        onClick={(e) => {
+                            e.preventDefault();
+                            const submitEvent = new Event('submit', { 
+                                bubbles: true, 
+                                cancelable: true 
+                            });
+                            formRef.current.dispatchEvent(submitEvent);
+                        }}
+                    >
                         {loading ? (
                             <div className="spinner"></div>
                         ) : (
