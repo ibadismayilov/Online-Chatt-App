@@ -1,0 +1,268 @@
+.profile-wrapper {
+    min-height: 100vh;
+    background: linear-gradient(135deg, $primary-bg 0%, $dark-bg 100%);
+    padding: 2rem;
+
+    .profile-container {
+        max-width: 800px;
+        margin: 0 auto;
+        color: $text;
+        animation: fadeIn 0.3s ease;
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+
+            .back-button {
+                @include button-reset;
+                color: $text;
+                font-size: 1.5rem;
+                padding: 0.8rem;
+                border-radius: 50%;
+                transition: $transition-fast;
+                background: rgba($secondary-bg, 0.5);
+
+                &:hover {
+                    background: $hover-bg;
+                    transform: translateX(-5px);
+                }
+            }
+
+            h1 {
+                font-size: 2rem;
+                font-weight: 600;
+                background: linear-gradient(135deg, $text 0%, rgba($text, 0.8) 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+            }
+        }
+
+        .profile-content {
+            background: rgba($secondary-bg, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba($text, 0.1);
+            border-radius: $border-radius-lg;
+            padding: 2.5rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+
+            .profile-avatar-section {
+                display: flex;
+                justify-content: center;
+                margin-bottom: 2.5rem;
+
+                .avatar-container {
+                    position: relative;
+                    width: 160px;
+                    height: 160px;
+
+                    .profile-avatar {
+                        width: 100%;
+                        height: 100%;
+                        border-radius: 50%;
+                        object-fit: cover;
+                        border: 4px solid $accent-blue;
+                        box-shadow: 0 0 20px rgba($accent-blue, 0.3);
+                        transition: $transition-fast;
+
+                        &:hover {
+                            transform: scale(1.02);
+                            border-color: lighten($accent-blue, 10%);
+                        }
+                    }
+
+                    .change-avatar-button {
+                        position: absolute;
+                        bottom: 5px;
+                        right: 5px;
+                        background: $accent-blue;
+                        border: none;
+                        width: 45px;
+                        height: 45px;
+                        border-radius: 50%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        color: white;
+                        cursor: pointer;
+                        transition: $transition-fast;
+                        font-size: 1.2rem;
+                        box-shadow: 0 4px 15px rgba($accent-blue, 0.3);
+
+                        &:hover {
+                            transform: scale(1.1) rotate(5deg);
+                            background: lighten($accent-blue, 5%);
+                        }
+                    }
+                }
+            }
+
+            .profile-info-section {
+                max-width: 500px;
+                margin: 0 auto;
+
+                .profile-stats {
+                    display: flex;
+                    justify-content: space-around;
+                    margin-bottom: 2.5rem;
+                    padding: 1.5rem;
+                    background: rgba($dark-bg, 0.5);
+                    border-radius: $border-radius-lg;
+                    border: 1px solid rgba($text, 0.1);
+
+                    .stat-item {
+                        text-align: center;
+                        padding: 0.5rem 1rem;
+                        transition: $transition-fast;
+
+                        &:hover {
+                            transform: translateY(-3px);
+
+                            .stat-value {
+                                color: lighten($accent-blue, 10%);
+                            }
+                        }
+
+                        .stat-value {
+                            display: block;
+                            font-size: 1.8rem;
+                            font-weight: 700;
+                            color: $accent-blue;
+                            margin-bottom: 0.3rem;
+                            transition: $transition-fast;
+                        }
+
+                        .stat-label {
+                            color: $text-muted;
+                            font-size: 0.9rem;
+                            font-weight: 500;
+                        }
+                    }
+                }
+
+                .info-group {
+                    margin-bottom: 1.5rem;
+
+                    label {
+                        display: block;
+                        margin-bottom: 0.5rem;
+                        color: $text-muted;
+                        font-size: 0.9rem;
+                        font-weight: 500;
+                    }
+
+                    input, textarea {
+                        width: 100%;
+                        padding: 1rem 1.2rem;
+                        background: rgba($dark-bg, 0.5);
+                        border: 1px solid rgba($text, 0.1);
+                        border-radius: $border-radius-md;
+                        color: $text;
+                        font-size: 1rem;
+                        transition: $transition-fast;
+
+                        &:focus {
+                            border-color: $accent-blue;
+                            outline: none;
+                            background: rgba($dark-bg, 0.7);
+                            box-shadow: 0 0 0 4px rgba($accent-blue, 0.1);
+                        }
+
+                        &::placeholder {
+                            color: $text-muted;
+                        }
+
+                        &:hover {
+                            border-color: rgba($text, 0.2);
+                        }
+                    }
+
+                    textarea {
+                        resize: vertical;
+                        min-height: 120px;
+                    }
+                }
+
+                .save-profile-button {
+                    width: 100%;
+                    padding: 1rem;
+                    background: $accent-blue;
+                    color: white;
+                    border: none;
+                    border-radius: $border-radius-md;
+                    font-size: 1rem;
+                    font-weight: 600;
+                    cursor: pointer;
+                    transition: $transition-fast;
+                    margin-top: 1rem;
+                    box-shadow: 0 4px 15px rgba($accent-blue, 0.3);
+
+                    &:hover {
+                        background: lighten($accent-blue, 5%);
+                        transform: translateY(-2px);
+                        box-shadow: 0 6px 20px rgba($accent-blue, 0.4);
+                    }
+
+                    &:active {
+                        transform: translateY(0);
+                    }
+                }
+            }
+        }
+    }
+}
+
+// Responsive
+@media screen and (max-width: $mobile) {
+    .profile-wrapper {
+        padding: 1rem;
+
+        .profile-container {
+            .profile-header {
+                h1 {
+                    font-size: 1.5rem;
+                }
+            }
+
+            .profile-content {
+                padding: 1.5rem;
+
+                .profile-avatar-section {
+                    .avatar-container {
+                        width: 120px;
+                        height: 120px;
+
+                        .change-avatar-button {
+                            width: 35px;
+                            height: 35px;
+                            font-size: 1rem;
+                        }
+                    }
+                }
+
+                .profile-info-section {
+                    .profile-stats {
+                        padding: 1rem;
+
+                        .stat-item {
+                            .stat-value {
+                                font-size: 1.4rem;
+                            }
+
+                            .stat-label {
+                                font-size: 0.8rem;
+                            }
+                        }
+                    }
+
+                    .info-group {
+                        input, textarea {
+                            padding: 0.8rem 1rem;
+                        }
+                    }
+                }
+            }
+        }
+    }
+} 

@@ -8,6 +8,7 @@ import { IoIosArrowBack } from 'react-icons/io';
 const MessagesContainer = () => {
     const { selectedConversation, setSelectedConversation } = useConversation();
     const [isActive, setIsActive] = useState(false);
+    const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
 
     useEffect(() => {
         if (selectedConversation) {
@@ -16,6 +17,29 @@ const MessagesContainer = () => {
         }
     }, [selectedConversation]);
 
+    useEffect(() => {
+        const detectKeyboard = () => {
+            // Mobil cihazlarda klaviatura açıq/bağlı vəziyyətini təyin edirik
+            const isKeyboard = window.visualViewport.height < window.innerHeight;
+            setIsKeyboardOpen(isKeyboard);
+            
+            if (isKeyboard) {
+                // Klaviatura hündürlüyünü CSS dəyişəninə mənimsədirik
+                document.documentElement.style.setProperty(
+                    '--keyboard-height',
+                    `${window.innerHeight - window.visualViewport.height}px`
+                );
+            }
+        };
+
+        // visualViewport dəyişikliklərini izləyirik
+        window.visualViewport?.addEventListener('resize', detectKeyboard);
+        
+        return () => {
+            window.visualViewport?.removeEventListener('resize', detectKeyboard);
+        };
+    }, []);
+
     const handleBack = () => {
         setIsActive(false);
         setSelectedConversation(null);
@@ -23,7 +47,7 @@ const MessagesContainer = () => {
     };
 
     return (
-        <div className={`messages-container ${isActive ? 'active' : ''}`}>
+        <div className={`messages-container ${isActive ? 'active' : ''} ${isKeyboardOpen ? 'keyboard-open' : ''}`}>
             {selectedConversation ? (
                 <>
                     <div className="header">

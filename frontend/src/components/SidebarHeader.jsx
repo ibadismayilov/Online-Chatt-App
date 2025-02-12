@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom';
 import SearchInput from './SearchInput'
 import { IoSearchOutline } from "react-icons/io5";
 import { IoEllipsisVerticalSharp } from "react-icons/io5";
 import LogoutButtons from './LogoutButtons';
+
 const SidebarHeader = () => {
     const [showSearch, setShowSearch] = useState(false);
     const [showOptions, setShowOptions] = useState(false);
@@ -35,10 +37,14 @@ const SidebarHeader = () => {
                         {showOptions && (
                             <div className='options-menu'>
                                 <ul>
-                                    <li>Profile</li>
+                                    <li>
+                                        <Link to="/profile" onClick={() => setShowOptions(false)}>
+                                            Profile
+                                        </Link>
+                                    </li>
                                     <li>Settings</li>
                                     <li>
-                                        <LogoutButtons />
+                                        <LogoutButtons/>
                                     </li>
                                 </ul>
                             </div>

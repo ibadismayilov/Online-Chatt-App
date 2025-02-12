@@ -49,6 +49,8 @@ $z-sidebar: 100;
 $z-messages: 50;
 $z-emoji-picker: 1000;
 $z-modal: 2000;
+$z-search-results: 3000;
+$z-settings-dropdown: 3500;
 
 // Additional Variables
 $glow-shadow: 0 0 20px rgba(0, 132, 255, 0.15);
@@ -249,6 +251,7 @@ $small-mobile: 400px;
                         min-width: 150px;
                         overflow: hidden;
                         animation: slideDown 0.2s ease;
+                        z-index: $z-settings-dropdown;
 
                         ul {
                             list-style: none;
@@ -386,65 +389,103 @@ $small-mobile: 400px;
 }
 
 .messages-container {
-    @include flex-column;
-    width: 100%;
-    height: 100dvh;
+    flex: 1;
+    overflow: hidden;
     background: $primary-bg;
     position: relative;
-    margin: 0;
-    padding: 0;
-    animation: slideInRight 0.6s $transition-bounce;
-
-    .header {
-        padding: 0.5rem;
-        background: $secondary-bg;
-        border-bottom: 1px solid $border-color;
-        flex-shrink: 0;
-
-
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: $spacing-md;
-
-            .back-button {
-                @include button-reset;
-                @include interactive-element;
-                color: $text-primary;
-                font-size: $font-size-xl;
-                padding: $spacing-xs;
-                opacity: 0.8;
-
-                &:hover {
-                    opacity: 1;
-                }
-            }
-
-            .user-avatar {
-                @include avatar-circle($avatar-size-sm);
-
-                img {
-                    width: 100%;
-                    height: 100%;
-                    object-fit: cover;
-                }
-            }
-        }
-
-        .user-fullname {
-            color: $text-primary;
-            font-size: $font-size-lg;
-            font-weight: 500;
-        }
-    }
+    display: flex;
+    flex-direction: column;
 
     .messages {
         flex: 1;
-        @include scrollbar;
         overflow-y: auto;
-        padding: $spacing-md;
-        background: $primary-bg;
-        height: auto;
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+
+        @media screen and (max-width: $mobile) {
+            padding: 1rem;
+            height: calc(100vh - 120px);
+            min-height: 200px;
+        }
+    }
+
+    .message-input {
+        padding: 1rem;
+        background: $secondary-bg;
+        border-top: 1px solid $border-color;
+
+        @media screen and (max-width: $mobile) {
+            position: sticky;
+            bottom: 0;
+            padding: 0.8rem;
+            z-index: 10;
+        }
+
+        form {
+            display: flex;
+            gap: 0.5rem;
+
+            input {
+                flex: 1;
+                padding: 0.8rem 1rem;
+                border-radius: $border-radius-md;
+                background: $dark-bg;
+                border: 1px solid transparent;
+                color: $text;
+                font-size: 0.95rem;
+
+                @media screen and (max-width: $mobile) {
+                    padding: 0.6rem 0.8rem;
+                    font-size: 0.9rem;
+                }
+
+                &:focus {
+                    outline: none;
+                    border-color: $accent-blue;
+                }
+            }
+
+            button {
+                padding: 0.8rem;
+                border-radius: $border-radius-md;
+                background: $accent-blue;
+                border: none;
+                color: white;
+                cursor: pointer;
+                transition: $transition-fast;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                @media screen and (max-width: $mobile) {
+                    padding: 0.6rem;
+                }
+
+                &:hover {
+                    background: darken($accent-blue, 5%);
+                }
+
+                &:disabled {
+                    opacity: 0.7;
+                    cursor: not-allowed;
+                }
+            }
+        }
+    }
+
+    @media screen and (max-width: $mobile) {
+        height: 100%;
+        max-height: 100%;
+        
+        &.keyboard-open {
+            height: calc(100% - var(--keyboard-height, 0px));
+            .messages {
+                flex: 1;
+                min-height: 150px;
+            }
+        }
     }
 }
 
@@ -785,12 +826,10 @@ $small-mobile: 400px;
 }
 
 .logout-button {
-
     button {
- color: white;
-        outline: none;
-        border: none;
         background: none;
+        border: none;
+        color: white;
     }
 }
 
@@ -1194,6 +1233,8 @@ $small-mobile: 400px;
                 border-radius: 0;
                 padding: 0;
                 height: 100vh;
+                position: relative;
+                overflow: hidden;
             }
         }
     }
@@ -1245,8 +1286,9 @@ $small-mobile: 400px;
         left: 0;
         width: 100%;
         height: 100dvh;
+        // transform: translateX(100%);
         transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        z-index: 1000;
+        z-index: $z-messages;
         margin: 0;
         padding: 0;
 
@@ -1287,114 +1329,9 @@ $small-mobile: 400px;
         }
 
         .messages-input-container {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: $secondary-bg;
-            padding: 8px;
-            border-top: 1px solid $border-color;
-            z-index: 1001;
-            -webkit-transform: translateZ(0);
-            transform: translateZ(0);
-            
-            .messages-input-form {
-                position: relative;
-                z-index: 1002;
-                
-                .input-area {
-                    background: darken($secondary-bg, 3%);
-                    border-radius: 24px;
-                    padding: 8px 12px;
-                    position: relative;
-                    display: flex;
-                    align-items: center;
-                    min-height: 44px;
-                    max-height: 120px;
-                    -webkit-tap-highlight-color: transparent;
-
-                    .message-textarea {
-                        flex: 1;
-                        background: transparent;
-                        border: none;
-                        color: $text;
-                        font-size: $font-size-md;
-                        padding: 4px 80px 4px 40px;
-                        resize: none;
-                        max-height: 100px;
-                        overflow-y: auto;
-                        -webkit-appearance: none;
-                        border-radius: 0;
-                        position: relative;
-                        z-index: 1;
-                        -webkit-overflow-scrolling: touch;
-                        touch-action: manipulation;
-                        
-                        &:focus {
-                            outline: none;
-                        }
-                    }
-
-                    .input-actions {
-                        position: absolute;
-                        right: 12px;
-                        top: 50%;
-                        transform: translateY(-50%);
-                        display: flex;
-                        align-items: center;
-                        gap: 8px;
-                        z-index: 2;
-
-                        button {
-                            width: 32px;
-                            height: 32px;
-                            padding: 0;
-                            border: none;
-                            background: transparent;
-                            color: $text-secondary;
-                            display: flex;
-                            align-items: center;
-                            justify-content: center;
-                            transition: $transition-fast;
-
-                            &:active {
-                                transform: scale(0.95);
-                            }
-
-                            svg {
-                                font-size: 20px;
-                            }
-                        }
-                    }
-
-                    .image-upload-label {
-                        position: absolute;
-                        left: 12px;
-                        top: 50%;
-                        transform: translateY(-50%);
-                        z-index: 2;
-                        width: 32px;
-                        height: 32px;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                        color: $text-secondary;
-                    }
-                }
-            }
-
-            .emoji-picker-container {
-                z-index: 1003;
-            }
-
-            .image-preview {
-                z-index: 1003;
-            }
+            padding: 0.6rem;
+            flex-shrink: 0;
         }
-    }
-
-    .messages-container {
-        padding-bottom: calc(60px + env(safe-area-inset-bottom));
     }
 
     .messages {
@@ -1488,12 +1425,12 @@ $small-mobile: 400px;
         bottom: 0;
         left: 0;
         right: 0;
-        z-index: 1000;
-        background: $secondary-bg;
-        border-top-left-radius: 16px;
-        border-top-right-radius: 16px;
-        box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.2);
-        animation: slideUp 0.3s ease;
+        transform: none;
+
+        em-emoji-picker {
+            width: 100% !important;
+            border-radius: 20px 20px 0 0;
+        }
     }
 }
 
@@ -1617,7 +1554,7 @@ $small-mobile: 400px;
 
             .message-textarea {
                 font-size: 0.85rem;
-                padding: 0.25rem 4.5rem;
+                padding: 0.25rem 4.5rem 0.25rem 2rem;
                 min-height: 20px;
             }
 
@@ -2209,7 +2146,7 @@ $gradient: linear-gradient(135deg, #0084ff 0%, #00c6ff 100%);
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
         max-height: 300px;
         overflow-y: auto;
-        z-index: 100;
+        z-index: $z-search-results;
         animation: slideDown 0.3s ease;
 
         .search-result-item {
