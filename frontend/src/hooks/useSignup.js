@@ -7,7 +7,7 @@ const useSignup = () => {
 
     const { authUser, setAuthUser } = useAuthContext();
 
-    const signup = async ({ fullname, username, password, confirmPassword, gender }) => {
+    const signup = async ({ fullname, username, password, confirmPassword, gender, biography }) => {
 
         const success = handleInputErrors({ fullname, username, password, confirmPassword, gender });
         if (!success) return;
@@ -19,7 +19,7 @@ const useSignup = () => {
             const res = await fetch("/api/auth/signup", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ fullname, username, password, confirmPassword, gender }),
+                body: JSON.stringify({ fullname, username, password, confirmPassword, gender , biography}),
             });
 
             const data = await res.json();
@@ -30,7 +30,6 @@ const useSignup = () => {
             //localstorage
             localStorage.setItem('chat-user', JSON.stringify(data));
             setAuthUser(data);
-
 
         } catch (error) {
             toast.error(error.message);

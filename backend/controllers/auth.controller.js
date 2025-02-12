@@ -6,7 +6,7 @@ import generateCustomID from "../utils/generateCustomID.js";
 
 export const signup = async (req, res, body) => {
     try {
-        const { fullname, username, password, confirmPassword, gender } = req.body;
+        const { fullname, username, biography, password, confirmPassword, gender } = req.body;
 
         if (password !== confirmPassword) {
             return res.status(400).json({ error: 'Password dont match' });
@@ -32,6 +32,7 @@ export const signup = async (req, res, body) => {
             customID,
             fullname,
             username,
+            biography,
             password: hashedPassword,
             gender,
             profilePic: gender === 'male' ? boyProfilePic : girlProfilePic
@@ -47,6 +48,7 @@ export const signup = async (req, res, body) => {
                 customID: newUser.customID,
                 fullname: newUser.fullname,
                 username: newUser.username,
+                biography: newUser.biography,
                 profilePic: newUser.profilePic
             });
         } else {
@@ -81,6 +83,7 @@ export const loginUser = async (req, res) => {
             customID: user.customID,
             fullname: user.fullname,
             username: user.username,
+            biography: user.biography,
             profilePic: user.profilePic
         })
 

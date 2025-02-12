@@ -35,7 +35,7 @@ app.use(fileUpload({
 app.use('/api/auth', authRoutes);
 app.use('/api/messages', messageRoutes);
 app.use('/api/users', usersRoutes);
-app.use('/api/contacts', contactsRoutes);;
+app.use('/api/contacts', contactsRoutes);
 
 
 // Frontend Serve

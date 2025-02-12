@@ -1,16 +1,37 @@
-import React from 'react';
-import { IoArrowBack, IoCamera } from 'react-icons/io5';
-import { Link } from 'react-router-dom';
-import { useAuthContext } from '../context/AuthContext';
+import React, { useState, useEffect } from "react";
+import { IoArrowBack, IoCamera } from "react-icons/io5";
+import { Link } from "react-router-dom";
+import { useAuthContext } from "../context/AuthContext";
+import useUpdateUserInformation from "../hooks/useUpdateUserInformation";
 
 const Profile = () => {
-    const { authUser } = useAuthContext();
+    const { authUser, setAuthUser } = useAuthContext();
+    const { updateInformation, loading } = useUpdateUserInformation();
+
+    const [fullname, setFullname] = useState(authUser.fullname);
+
 
     if (!authUser) return null;
 
+    useEffect(() => {
+        setFullname(authUser?.fullname || "");
+    }, [authUser]);
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        if (fullname === authUser.fullname) return;
+
+        const updatedUser = await updateInformation(fullname);
+        
+        if (updatedUser) {
+            setAuthUser(prev => ({ ...prev, fullname: updatedUser.fullname }));
+            setFullname(updatedUser.fullname);
+        }
+    };
+
     return (
         <div className="profile-wrapper">
-            <div className="profile-container">
+            <form className="profile-container" onSubmit={handleSubmit}>
                 <div className="profile-header">
                     <Link to="/" className="back-button">
                         <IoArrowBack />
@@ -21,9 +42,9 @@ const Profile = () => {
                 <div className="profile-content">
                     <div className="profile-avatar-section">
                         <div className="avatar-container">
-                            <img 
-                                src={authUser.profilePic} 
-                                alt="Profile" 
+                            <img
+                                src={authUser.profilePic}
+                                alt="Profile"
                                 className="profile-avatar"
                             />
                             <button className="change-avatar-button">
@@ -33,68 +54,53 @@ const Profile = () => {
                     </div>
 
                     <div className="profile-info-section">
-                        <div className="profile-stats">
-                            <div className="stat-item">
-                                <span className="stat-value">256</span>
-                                <span className="stat-label">Kontaktlar</span>
-                            </div>
-                            <div className="stat-item">
-                                <span className="stat-value">1.2K</span>
-                                <span className="stat-label">Mesajlar</span>
-                            </div>
-                            <div className="stat-item">
-                                <span className="stat-value">85</span>
-                                <span className="stat-label">Media</span>
-                            </div>
-                        </div>
-
                         <div className="info-group">
-                            <label>Ad Soyad</label>
-                            <input 
+                            <label>Full Name</label>
+                            <input
                                 type="text"
-                                placeholder="Ad Soyad"
-                                defaultValue={authUser.fullname}
-                                readOnly
+                                placeholder="Full Name"
+                                value={fullname}
+                                onChange={(e) => setFullname(e.target.value)}
                             />
                         </div>
 
                         <div className="info-group">
                             <label>Custom ID</label>
-                            <input 
+                            <input
                                 type="text"
                                 placeholder="@username"
-                                defaultValue={authUser.customID || "@" + authUser.username}
+                                value={authUser.customID || "@" + authUser.username}
                                 readOnly
                             />
                         </div>
 
                         <div className="info-group">
                             <label>Bio</label>
-                            <textarea 
-                                placeholder="Özünüz haqqında məlumat..."
+                            <textarea
+                                placeholder="Write something about yourself..."
                                 rows="4"
-                                defaultValue={authUser.bio}
+                                value={authUser.biography}
                             />
                         </div>
 
                         <div className="info-group">
                             <label>Email</label>
-                            <input 
+                            <input
                                 type="email"
                                 placeholder="Email"
-                                defaultValue={authUser.email}
+                                value={authUser.email}
                                 readOnly
                             />
                         </div>
 
-                        <button className="save-profile-button">
-                            Məlumatları Yenilə
+                        <button className="save-profile-button" type="submit" disabled={loading}>
+                            {loading ? "Updating..." : "Update Information"}
                         </button>
                     </div>
                 </div>
-            </div>
+            </form>
         </div>
     );
 };
 
-export default Profile; 
+export default Profile;
