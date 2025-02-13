@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import Messages from './Messages'
 import MessagesInput from './MessagesInput'
 import useConversation from '../../zustand/useConversation';
@@ -9,6 +9,7 @@ const MessagesContainer = () => {
     const { selectedConversation, setSelectedConversation } = useConversation();
     const [isActive, setIsActive] = useState(false);
     const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
+    const messagesRef = useRef(null);
 
     useEffect(() => {
         if (selectedConversation) {
@@ -28,15 +29,14 @@ const MessagesContainer = () => {
                 const isKeyboard = window.visualViewport.height < window.innerHeight;
                 setIsKeyboardOpen(isKeyboard);
                 
-                if (isKeyboard) {
-                    // Klaviatura açıq olanda
-                    document.documentElement.style.setProperty(
-                        '--app-height', 
-                        `${window.visualViewport.height}px`
-                    );
-                } else {
-                    // Klaviatura bağlı olanda
-                    setAppHeight();
+                document.documentElement.style.setProperty(
+                    '--app-height', 
+                    `${window.visualViewport.height}px`
+                );
+
+                if (isKeyboard && messagesRef.current) {
+                    const scrollHeight = messagesRef.current.scrollHeight;
+                    messagesRef.current.scrollTop = scrollHeight;
                 }
             }
         };
@@ -75,7 +75,9 @@ const MessagesContainer = () => {
                         </div>
                         <div className='user-fullname'>{selectedConversation.fullname}</div>
                     </div>
-                    <Messages />
+                    <div className="messages" ref={messagesRef}>
+                        <Messages />
+                    </div>
                     <MessagesInput />
                 </>
             ) : (
