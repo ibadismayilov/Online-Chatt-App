@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState } from 'react'
 import Messages from './Messages'
 import MessagesInput from './MessagesInput'
 import useConversation from '../../zustand/useConversation';
@@ -9,7 +9,6 @@ const MessagesContainer = () => {
     const { selectedConversation, setSelectedConversation } = useConversation();
     const [isActive, setIsActive] = useState(false);
     const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
-    const messagesRef = useRef(null);
 
     useEffect(() => {
         if (selectedConversation) {
@@ -19,34 +18,19 @@ const MessagesContainer = () => {
     }, [selectedConversation]);
 
     useEffect(() => {
-        const setAppHeight = () => {
-            const vh = window.innerHeight * 0.01;
-            document.documentElement.style.setProperty('--app-height', `${window.innerHeight}px`);
-        };
-
         const detectKeyboard = () => {
             if (window.visualViewport) {
                 const isKeyboard = window.visualViewport.height < window.innerHeight;
                 setIsKeyboardOpen(isKeyboard);
-                
                 document.documentElement.style.setProperty(
-                    '--app-height', 
-                    `${window.visualViewport.height}px`
+                    '--keyboard-height',
+                    `${window.innerHeight - window.visualViewport.height}px`
                 );
-
-                if (isKeyboard && messagesRef.current) {
-                    const scrollHeight = messagesRef.current.scrollHeight;
-                    messagesRef.current.scrollTop = scrollHeight;
-                }
             }
         };
 
-        setAppHeight();
-        window.addEventListener('resize', setAppHeight);
         window.visualViewport?.addEventListener('resize', detectKeyboard);
-        
         return () => {
-            window.removeEventListener('resize', setAppHeight);
             window.visualViewport?.removeEventListener('resize', detectKeyboard);
         };
     }, []);
@@ -75,9 +59,7 @@ const MessagesContainer = () => {
                         </div>
                         <div className='user-fullname'>{selectedConversation.fullname}</div>
                     </div>
-                    <div className="messages" ref={messagesRef}>
-                        <Messages />
-                    </div>
+                    <Messages />
                     <MessagesInput />
                 </>
             ) : (
