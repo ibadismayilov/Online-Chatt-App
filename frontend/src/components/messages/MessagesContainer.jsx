@@ -18,19 +18,35 @@ const MessagesContainer = () => {
     }, [selectedConversation]);
 
     useEffect(() => {
+        const setAppHeight = () => {
+            const vh = window.innerHeight * 0.01;
+            document.documentElement.style.setProperty('--app-height', `${window.innerHeight}px`);
+        };
+
         const detectKeyboard = () => {
             if (window.visualViewport) {
                 const isKeyboard = window.visualViewport.height < window.innerHeight;
                 setIsKeyboardOpen(isKeyboard);
-                document.documentElement.style.setProperty(
-                    '--keyboard-height',
-                    `${window.innerHeight - window.visualViewport.height}px`
-                );
+                
+                if (isKeyboard) {
+                    // Klaviatura açıq olanda
+                    document.documentElement.style.setProperty(
+                        '--app-height', 
+                        `${window.visualViewport.height}px`
+                    );
+                } else {
+                    // Klaviatura bağlı olanda
+                    setAppHeight();
+                }
             }
         };
 
+        setAppHeight();
+        window.addEventListener('resize', setAppHeight);
         window.visualViewport?.addEventListener('resize', detectKeyboard);
+        
         return () => {
+            window.removeEventListener('resize', setAppHeight);
             window.visualViewport?.removeEventListener('resize', detectKeyboard);
         };
     }, []);
