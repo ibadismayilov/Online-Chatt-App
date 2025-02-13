@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
+import { IoSearchOutline, IoCloseOutline } from "react-icons/io5";
 import useGetConversations from '../hooks/useGetConversations';
 import { useSocketContext } from '../context/SocketContext';
 import useAddContact from '../hooks/useAddContacts';
 import useGetContacts from '../hooks/useGetContacs';
 import useRemoveContacts from '../hooks/useRemoveContacts';
 import toast from 'react-hot-toast';
-import { IoSearchOutline } from "react-icons/io5";
-import { IoCloseOutline } from "react-icons/io5";
 
 const SearchInput = () => {
   const [search, setSearch] = useState('');
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const { conversations = [] } = useGetConversations();
   const { onlineUsers } = useSocketContext();
   const { addContact, loading: addLoading } = useAddContact();
@@ -20,39 +20,45 @@ const SearchInput = () => {
     e.preventDefault();
     if (!search) return;
     if (search.length < 3) {
-      return toast.error("Minimum 3 simvol daxil edin");
+      return toast.error("Enter a minimum of 3 characters");
     }
   };
 
-  const handleClear = () => {
-    setSearch('');
+  const toggleSearch = () => {
+    setIsSearchOpen(!isSearchOpen);
+    if (!isSearchOpen) {
+      setTimeout(() => document.querySelector('.search-input input')?.focus(), 100);
+    } else {
+      setSearch('');
+    }
   };
 
   const filteredConversations = search && conversations ? 
     conversations.filter((user) => 
       user?.customID?.toLowerCase().includes(search.toLowerCase())
     ) : [];
+    
 
   return (
     <div className='search-input'>
       <form onSubmit={handleSubmit}>
         <div className='search-container'>
-          <IoSearchOutline className='search-icon' />
-        <input
-          type="text"
-            placeholder='İstifadəçi axtar...'
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
-          {search && (
-            <button 
-              type="button" 
-              className='clear-button'
-              onClick={handleClear}
-            >
-              <IoCloseOutline />
-        </button>
-          )}
+          <button
+            type="button"
+            className="search-toggle-btn"
+            onClick={toggleSearch}
+          >
+            {isSearchOpen ? <IoCloseOutline /> : <IoSearchOutline />}
+          </button>
+          
+          <div className={`search-input-wrapper ${isSearchOpen ? 'show' : ''}`}>
+            <input
+              type="text"
+              placeholder='Search user...'
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+          </div>
         </div>
       </form>
 

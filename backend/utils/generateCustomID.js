@@ -8,7 +8,7 @@ const generateCustomID = async () => {
     let exists = true;
     let attempts = 0;
 
-    while (exists && attempts < 10) {
+    while (exists && attempts < 100) {
         newId = "";
         for (let i = 0; i < 5; i++) {
             newId += chars.charAt(Math.floor(Math.random() * chars.length));

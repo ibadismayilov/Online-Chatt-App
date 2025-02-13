@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import useConversation from '../zustand/useConversation';
 import { useSocketContext } from '../context/SocketContext';
 import useAddContact from '../hooks/useAddContacts';
 import useGetContacts from '../hooks/useGetContacs';
 import useRemoveContacts from '../hooks/useRemoveContacts';
+
 
 const Conversation = ({ conversation }) => {
     const { selectedConversation, setSelectedConversation } = useConversation();
@@ -14,6 +15,9 @@ const Conversation = ({ conversation }) => {
     const { contacts } = useGetContacts();
     const { removeContacts, loading: removeLoading } = useRemoveContacts();
     const isAdded = contacts.some((c) => c._id === conversation._id);
+
+    console.log("Conversation Object:", conversation);
+
 
     return (
         <div className='search-result-item'>
@@ -43,7 +47,7 @@ const Conversation = ({ conversation }) => {
                         disabled={removeLoading}
                         className="remove-button"
                     >
-                        {removeLoading ? 'Silinir...' : 'Sil'}
+                        {removeLoading ? 'Deleted...' : 'Delete'}
                     </button>
                 ) : (
                     <button
@@ -55,7 +59,7 @@ const Conversation = ({ conversation }) => {
                         disabled={addLoading}
                         className="add-button"
                     >
-                        {addLoading ? 'Əlavə edilir...' : 'Əlavə et'}
+                        {addLoading ? 'It is added...' : 'Add'}
                     </button>
                 )}
             </div>

@@ -31,7 +31,7 @@ export const addContacts = async (req, res) => {
 export const getContacts = async (req, res) => {
     try {
         const userID = req.user._id;
-        const user = await User.findById(userID).populate("contacts", "fullname username profilePic");
+        const user = await User.findById(userID).populate("contacts", "fullname username profilePic customID");
 
         if (!user) {
             return res.status(404).json({ message: "User not found" });
