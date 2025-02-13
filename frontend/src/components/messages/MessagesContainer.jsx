@@ -8,38 +8,31 @@ import { IoIosArrowBack } from 'react-icons/io';
 const MessagesContainer = () => {
     const { selectedConversation, setSelectedConversation } = useConversation();
     const [isActive, setIsActive] = useState(false);
-    const [keyboardHeight, setKeyboardHeight] = useState(0);
+    const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
     const messagesContainerRef = useRef(null);
-    const messagesEndRef = useRef(null);
-
-    // Klaviatura yüksəkliyini izləmək
-    useEffect(() => {
-        const detectKeyboard = () => {
-            if (window.visualViewport) {
-                const height = window.innerHeight - window.visualViewport.height;
-                setKeyboardHeight(height > 0 ? height : 0);
-                document.documentElement.style.setProperty('--keyboard-height', `${height}px`);
-            }
-        };
-
-        window.visualViewport?.addEventListener('resize', detectKeyboard);
-        return () => window.visualViewport?.removeEventListener('resize', detectKeyboard);
-    }, []);
-
-    // Mesajların sonuna scroll
-    const scrollToBottom = () => {
-        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-    };
-
-    useEffect(() => {
-        scrollToBottom();
-    }, [selectedConversation]);
 
     useEffect(() => {
         if (selectedConversation) {
             setIsActive(true);
             document.querySelector('.sidebar')?.classList.add('hidden');
         }
+
+        // Klaviatura dəyişikliyini izləmək
+        const detectKeyboard = () => {
+            const isKeyboard = window.visualViewport.height < window.innerHeight;
+            setIsKeyboardOpen(isKeyboard);
+            
+            if (messagesContainerRef.current) {
+                messagesContainerRef.current.style.height = 
+                    `${window.visualViewport.height}px`;
+            }
+        };
+
+        window.visualViewport?.addEventListener('resize', detectKeyboard);
+        
+        return () => {
+            window.visualViewport?.removeEventListener('resize', detectKeyboard);
+        };
     }, [selectedConversation]);
 
     const handleBack = () => {
@@ -50,8 +43,8 @@ const MessagesContainer = () => {
 
     return (
         <div 
-            className={`messages-container ${isActive ? 'active' : ''} ${keyboardHeight > 0 ? 'keyboard-open' : ''}`}
             ref={messagesContainerRef}
+            className={`messages-container ${isActive ? 'active' : ''} ${isKeyboardOpen ? 'keyboard-open' : ''}`}
         >
             {selectedConversation ? (
                 <>
@@ -69,12 +62,7 @@ const MessagesContainer = () => {
                         </div>
                         <div className='user-fullname'>{selectedConversation.fullname}</div>
                     </div>
-                    
-                    <div className="messages-content">
-                        <Messages />
-                        <div ref={messagesEndRef} />
-                    </div>
-                    
+                    <Messages />
                     <MessagesInput />
                 </>
             ) : (
@@ -83,8 +71,6 @@ const MessagesContainer = () => {
         </div>
     )
 }
-
-export default MessagesContainer;
 
 const NoChatSelected = () => {
     const { authUser } = useAuthContext();
@@ -95,3 +81,5 @@ const NoChatSelected = () => {
         </div>
     )
 }
+
+export default MessagesContainer;
