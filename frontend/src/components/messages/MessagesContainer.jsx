@@ -8,7 +8,32 @@ import { IoIosArrowBack } from 'react-icons/io';
 const MessagesContainer = () => {
     const { selectedConversation, setSelectedConversation } = useConversation();
     const [isActive, setIsActive] = useState(false);
+    const [keyboardHeight, setKeyboardHeight] = useState(0);
     const messagesContainerRef = useRef(null);
+    const messagesEndRef = useRef(null);
+
+    // Klaviatura yüksəkliyini izləmək
+    useEffect(() => {
+        const detectKeyboard = () => {
+            if (window.visualViewport) {
+                const height = window.innerHeight - window.visualViewport.height;
+                setKeyboardHeight(height > 0 ? height : 0);
+                document.documentElement.style.setProperty('--keyboard-height', `${height}px`);
+            }
+        };
+
+        window.visualViewport?.addEventListener('resize', detectKeyboard);
+        return () => window.visualViewport?.removeEventListener('resize', detectKeyboard);
+    }, []);
+
+    // Mesajların sonuna scroll
+    const scrollToBottom = () => {
+        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    };
+
+    useEffect(() => {
+        scrollToBottom();
+    }, [selectedConversation]);
 
     useEffect(() => {
         if (selectedConversation) {
@@ -25,7 +50,7 @@ const MessagesContainer = () => {
 
     return (
         <div 
-            className={`messages-container ${isActive ? 'active' : ''}`}
+            className={`messages-container ${isActive ? 'active' : ''} ${keyboardHeight > 0 ? 'keyboard-open' : ''}`}
             ref={messagesContainerRef}
         >
             {selectedConversation ? (
@@ -47,6 +72,7 @@ const MessagesContainer = () => {
                     
                     <div className="messages-content">
                         <Messages />
+                        <div ref={messagesEndRef} />
                     </div>
                     
                     <MessagesInput />

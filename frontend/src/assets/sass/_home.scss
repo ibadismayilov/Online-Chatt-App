@@ -442,6 +442,16 @@ $small-mobile: 400px;
     background: $primary-bg;
     position: relative;
 
+    // Klaviatura açıq olduqda
+    &.keyboard-open {
+        height: calc(100dvh - var(--keyboard-height, 0px));
+        
+        .messages-content {
+            height: calc(100% - 120px);
+            min-height: 150px;
+        }
+    }
+
     .header {
         padding: 0.8rem;
         background: $secondary-bg;
@@ -452,6 +462,7 @@ $small-mobile: 400px;
         display: flex;
         align-items: center;
         justify-content: center;
+        flex-shrink: 0;
 
         .header-left {
             position: absolute;
@@ -497,28 +508,20 @@ $small-mobile: 400px;
     .messages-content {
         flex: 1;
         overflow-y: auto;
-        -webkit-overflow-scrolling: touch; // iOS için smooth scroll
-        padding: 1rem;
+        overflow-x: hidden;
+        -webkit-overflow-scrolling: touch;
+        padding: 0.8rem;
         display: flex;
         flex-direction: column;
+        position: relative;
+        height: calc(100% - 120px);
 
-        // Custom scrollbar
+        // Scroll bar-ı gizlət
         &::-webkit-scrollbar {
-            width: 3px;
+            display: none;
         }
-
-        &::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        &::-webkit-scrollbar-thumb {
-            background: rgba($text-muted, 0.2);
-            border-radius: 3px;
-        }
-
-        // Firefox için
-        scrollbar-width: thin;
-        scrollbar-color: rgba($text-muted, 0.2) transparent;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
     }
 
     .message-input {
@@ -529,6 +532,7 @@ $small-mobile: 400px;
         bottom: 0;
         width: 100%;
         z-index: 100;
+        flex-shrink: 0;
 
         .input-area {
             position: relative;
@@ -564,16 +568,10 @@ $small-mobile: 400px;
 
                 button {
                     @include button-reset;
-                    color: $text-secondary;
-                    font-size: 1.3rem;
-                    padding: 0.5rem;
+                    @include interactive-element;
+                    padding: $spacing-sm;
                     border-radius: 50%;
-                    transition: $transition-fast;
-
-                    &:hover {
-                        color: $text-primary;
-                        background: rgba($text-muted, 0.1);
-                    }
+                    color: $text-primary;
                 }
             }
         }
@@ -1418,6 +1416,12 @@ $small-mobile: 400px;
             transform: translateX(0);
         }
 
+        &.keyboard-open {
+            .messages-content {
+                height: calc(100% - 120px - var(--keyboard-height, 0px));
+            }
+        }
+
         .header {
             padding: 0.6rem;
 
@@ -1436,7 +1440,7 @@ $small-mobile: 400px;
         }
 
         .messages-content {
-            height: calc(100vh - 120px); // header və input hündürlüyünü çıxırıq
+            height: calc(100% - 120px);
             padding: 0.8rem;
         }
 
