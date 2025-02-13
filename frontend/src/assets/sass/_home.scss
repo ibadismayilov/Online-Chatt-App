@@ -201,7 +201,7 @@ $small-mobile: 400px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            
+
             // Logo
             .logo {
                 h2 {
@@ -225,7 +225,7 @@ $small-mobile: 400px;
                     color: $text-secondary;
                     @include flex-center;
                     transition: $transition-fast;
-                    
+
                     &:hover {
                         background: $hover-bg;
                         color: $text-primary;
@@ -397,7 +397,7 @@ $small-mobile: 400px;
     @include flex-column;
     width: 100%;
     height: 100dvh;
-    overflow-y: none !important;
+    overflow-y: hidden !important;
     background: $primary-bg;
     position: relative;
     margin: 0;
@@ -517,7 +517,7 @@ $small-mobile: 400px;
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             box-shadow: 0 1px 10px rgba(0, 0, 0, 0.1);
-            
+
             padding: 0.6rem;
 
             .header-left {
@@ -2184,6 +2184,7 @@ $gradient: linear-gradient(135deg, #0084ff 0%, #00c6ff 100%);
         opacity: 0;
         transform: translateY(-10px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -2197,7 +2198,7 @@ $gradient: linear-gradient(135deg, #0084ff 0%, #00c6ff 100%);
     .search-container {
         position: relative;
         width: 100%;
-        
+
         .search-icon {
             position: absolute;
             left: 12px;
@@ -2392,6 +2393,7 @@ $gradient: linear-gradient(135deg, #0084ff 0%, #00c6ff 100%);
         opacity: 0;
         transform: translateY(-10px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -2402,9 +2404,11 @@ $gradient: linear-gradient(135deg, #0084ff 0%, #00c6ff 100%);
     0% {
         box-shadow: 0 0 0 0 rgba($online-green, 0.4);
     }
+
     70% {
         box-shadow: 0 0 0 6px rgba($online-green, 0);
     }
+
     100% {
         box-shadow: 0 0 0 0 rgba($online-green, 0);
     }
@@ -2442,6 +2446,7 @@ $gradient: linear-gradient(135deg, #0084ff 0%, #00c6ff 100%);
         transform: scale(0.9);
         opacity: 0;
     }
+
     to {
         transform: scale(1);
         opacity: 1;
@@ -2476,7 +2481,7 @@ $gradient: linear-gradient(135deg, #0084ff 0%, #00c6ff 100%);
 
                 .user-avatar-container {
                     position: relative;
-                    
+
                     .avatar-image {
                         width: 40px;
                         height: 40px;
