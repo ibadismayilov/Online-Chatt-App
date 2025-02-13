@@ -441,15 +441,11 @@ $small-mobile: 400px;
     height: 100dvh;
     background: $primary-bg;
     position: relative;
-    margin: 0;
-    padding: 0;
-    animation: slideInRight 0.6s $transition-bounce;
 
     .header {
-        padding: 0.5rem;
+        padding: 0.8rem;
         background: $secondary-bg;
         border-bottom: 1px solid $border-color;
-        flex-shrink: 0;
         position: sticky;
         top: 0;
         z-index: 100;
@@ -459,18 +455,18 @@ $small-mobile: 400px;
 
         .header-left {
             position: absolute;
-            left: 0.5rem;
+            left: 0.8rem;
             display: flex;
             align-items: center;
-            gap: $spacing-md;
+            gap: 0.8rem;
 
             .back-button {
                 @include button-reset;
-                @include interactive-element;
                 color: $text-primary;
-                font-size: $font-size-xl;
-                padding: $spacing-xs;
+                font-size: 1.5rem;
+                padding: 0.5rem;
                 opacity: 0.8;
+                transition: $transition-fast;
 
                 &:hover {
                     opacity: 1;
@@ -478,7 +474,10 @@ $small-mobile: 400px;
             }
 
             .user-avatar {
-                @include avatar-circle($avatar-size-sm);
+                width: 35px;
+                height: 35px;
+                border-radius: 50%;
+                overflow: hidden;
 
                 img {
                     width: 100%;
@@ -489,113 +488,92 @@ $small-mobile: 400px;
         }
 
         .user-fullname {
-            color: $text-primary;
-            font-size: $font-size-lg;
+            font-size: 1.1rem;
             font-weight: 500;
+            color: $text-primary;
         }
     }
 
-    .messages {
+    .messages-content {
         flex: 1;
-        @include scrollbar;
         overflow-y: auto;
-        padding: $spacing-md;
-        background: $primary-bg;
-        height: auto;
+        -webkit-overflow-scrolling: touch; // iOS için smooth scroll
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+
+        // Custom scrollbar
+        &::-webkit-scrollbar {
+            width: 3px;
+        }
+
+        &::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background: rgba($text-muted, 0.2);
+            border-radius: 3px;
+        }
+
+        // Firefox için
+        scrollbar-width: thin;
+        scrollbar-color: rgba($text-muted, 0.2) transparent;
     }
 
     .message-input {
-        padding: $spacing-md;
+        padding: 0.8rem;
         background: $secondary-bg;
         border-top: 1px solid $border-color;
+        position: sticky;
+        bottom: 0;
+        width: 100%;
+        z-index: 100;
 
-        form {
+        .input-area {
+            position: relative;
             display: flex;
-            gap: $spacing-sm;
+            align-items: center;
+            background: $dark-bg;
+            border-radius: 24px;
+            padding: 0.5rem;
 
-            input {
+            .message-textarea {
                 flex: 1;
-                padding: $spacing-sm $spacing-md;
-                border-radius: $border-radius-md;
-                background: $dark-bg;
-                border: 1px solid transparent;
-                color: $text;
-                font-size: $font-size-md;
-
-                &:focus {
-                    outline: none;
-                    border-color: $accent-blue;
-                }
-            }
-
-            button {
-                padding: $spacing-sm $spacing-md;
-                border-radius: $border-radius-md;
-                background: $accent-blue;
+                background: transparent;
                 border: none;
-                color: white;
-                cursor: pointer;
-                transition: $transition-fast;
+                color: $text-primary;
+                padding: 0.5rem 3rem 0.5rem 1rem;
+                max-height: 100px;
+                resize: none;
+                font-size: 0.95rem;
+                line-height: 1.4;
+                outline: none;
 
-                &:hover {
-                    background: darken($accent-blue, 5%);
-                }
-
-                &:disabled {
-                    opacity: 0.7;
-                    cursor: not-allowed;
-                }
-            }
-        }
-    }
-
-    // Mobile responsiveness
-    @media screen and (max-width: $mobile) {
-        .header {
-            position: sticky;
-            top: 0;
-            background: rgba($secondary-bg, 0.95);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            box-shadow: 0 1px 10px rgba(0, 0, 0, 0.1);
-
-            padding: 0.6rem;
-
-            .header-left {
-                left: 0.6rem;
-                gap: 0.6rem;
-
-                .back-button {
-                    font-size: 1.1rem;
-                    padding: 0.3rem;
-                }
-
-                .user-avatar {
-                    width: 32px;
-                    height: 32px;
+                &::placeholder {
+                    color: $text-muted;
                 }
             }
 
-            .user-fullname {
-                font-size: 1rem;
-            }
-        }
-
-        .messages {
-            padding: 0.5rem;
-        }
-
-        .message-input {
-            padding: 0.5rem;
-
-            form {
-                input {
-                    padding: 0.5rem;
-                    font-size: $font-size-sm;
-                }
+            .input-actions {
+                position: absolute;
+                right: 0.8rem;
+                display: flex;
+                gap: 0.5rem;
+                align-items: center;
 
                 button {
+                    @include button-reset;
+                    color: $text-secondary;
+                    font-size: 1.3rem;
                     padding: 0.5rem;
+                    border-radius: 50%;
+                    transition: $transition-fast;
+
+                    &:hover {
+                        color: $text-primary;
+                        background: rgba($text-muted, 0.1);
+                    }
                 }
             }
         }
@@ -1432,14 +1410,57 @@ $small-mobile: 400px;
         top: 0;
         left: 0;
         width: 100%;
-        height: 100vh;
+        height: 100%;
         transform: translateX(100%);
         transition: transform 0.3s ease;
-        background: $primary-bg;
-        z-index: $z-messages;
 
         &.active {
             transform: translateX(0);
+        }
+
+        .header {
+            padding: 0.6rem;
+
+            .header-left {
+                left: 0.6rem;
+                gap: 0.6rem;
+
+                .back-button {
+                    font-size: 1.3rem;
+                }
+            }
+
+            .user-fullname {
+                font-size: 1rem;
+            }
+        }
+
+        .messages-content {
+            height: calc(100vh - 120px); // header və input hündürlüyünü çıxırıq
+            padding: 0.8rem;
+        }
+
+        .message-input {
+            padding: 0.6rem;
+            
+            .input-area {
+                padding: 0.4rem;
+
+                .message-textarea {
+                    padding: 0.4rem 2.8rem 0.4rem 0.8rem;
+                    font-size: 0.9rem;
+                }
+
+                .input-actions {
+                    right: 0.6rem;
+                    gap: 0.4rem;
+
+                    button {
+                        font-size: 1.2rem;
+                        padding: 0.4rem;
+                    }
+                }
+            }
         }
     }
 

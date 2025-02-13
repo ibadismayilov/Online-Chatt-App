@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import Messages from './Messages'
 import MessagesInput from './MessagesInput'
 import useConversation from '../../zustand/useConversation';
@@ -8,6 +8,7 @@ import { IoIosArrowBack } from 'react-icons/io';
 const MessagesContainer = () => {
     const { selectedConversation, setSelectedConversation } = useConversation();
     const [isActive, setIsActive] = useState(false);
+    const messagesContainerRef = useRef(null);
 
     useEffect(() => {
         if (selectedConversation) {
@@ -23,7 +24,10 @@ const MessagesContainer = () => {
     };
 
     return (
-        <div className={`messages-container ${isActive ? 'active' : ''}`}>
+        <div 
+            className={`messages-container ${isActive ? 'active' : ''}`}
+            ref={messagesContainerRef}
+        >
             {selectedConversation ? (
                 <>
                     <div className="header">
@@ -40,13 +44,15 @@ const MessagesContainer = () => {
                         </div>
                         <div className='user-fullname'>{selectedConversation.fullname}</div>
                     </div>
-                    <Messages />
+                    
+                    <div className="messages-content">
+                        <Messages />
+                    </div>
+                    
                     <MessagesInput />
                 </>
             ) : (
-                <div className="no-messages">
-                    <NoChatSelected />
-                </div>
+                <NoChatSelected />
             )}
         </div>
     )
