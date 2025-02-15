@@ -14,15 +14,16 @@ const useGetContacts = () => {
                     headers: {
                         "Content-Type": "application/json",
                     },
-                    credentials: "include", // Əgər cookie istifadə edirsənsə
+                    credentials: "include",
                 });
                 const data = await res.json();
 
                 if (!res.ok) {
-                    throw new Error(data.message || "Kontaktları almaq mümkün olmadı");
+                    throw new Error(data.message || "Contacts could not be retrieved");
                 }
 
                 setContacts(data.contacts);
+
             } catch (error) {
                 toast.error(error.message);
             } finally {
@@ -33,7 +34,7 @@ const useGetContacts = () => {
         getContacts();
     }, []);
 
-    return { loading, contacts };
+    return { loading, contacts, setContacts };
 };
 
 export default useGetContacts;

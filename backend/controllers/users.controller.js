@@ -19,23 +19,25 @@ export const getUsersForSidebar = async (req, res) => {
 export const updateUserInformation = async (req, res) => {
     try {
         const userID = req.user._id;
+        const { fullname, biography } = req.body;
 
-        if (!req.body.fullname) {
-            return res.status(400).json({ message: "Name and Surname not included" });
+        if (!fullname && !biography) {
+            return res.status(400).json({ message: "No data provided for update" });
         }
 
-        const user = await User.findByIdAndUpdate( userID,
-            { fullname: req.body.fullname },
+        const updatedUser = await User.findByIdAndUpdate(
+            userID,
+            { $set: { ...(fullname && { fullname }), ...(biography && { biography }) } },
             { new: true, runValidators: true }
         );
 
-        if (!user) {
+        if (!updatedUser) {
             return res.status(404).json({ message: "User not found" });
         }
 
-        res.status(200).json({ success: true, user });
+        res.status(200).json({ success: true, user: updatedUser });
     } catch (error) {
-        console.error("An error occurred:", error);
+        console.error("Update Error:", error);
         res.status(500).json({ message: "Server error", error });
     }
 };

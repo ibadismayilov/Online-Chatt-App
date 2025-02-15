@@ -1,8 +1,10 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
-
+import useContactStore from "../zustand/useContactStore";
+import useGetContacts from "./useGetContacs";
 const useAddContact = () => {
     const [loading, setLoading] = useState(false);
+    const { contacts,  setContacts } = useGetContacts();
 
     const addContact = async (contactID) => {
         if (!contactID) return;
@@ -19,10 +21,12 @@ const useAddContact = () => {
             const data = await res.json();
 
             if (!res.ok) {
-                throw new Error(data.message || 'Xəta baş verdi');
+                throw new Error(data.message || 'An error occurred');
             }
 
-            toast.success('İstifadəçi uğurla əlavə edildi');
+            setContacts([...contacts, data.contact]);
+
+            toast.success('User added successfully');
         } catch (error) {
             toast.error(error.message);
         }

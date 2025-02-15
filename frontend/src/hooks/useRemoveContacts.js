@@ -1,8 +1,9 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
-
+import useGetContacts from "./useGetContacs";
 const useRemoveContacts = () => {
     const [loading, setLoading] = useState(false);
+    const { contacts,  setContacts } = useGetContacts();
 
     const removeContacts = async (contactID) => {
         setLoading(true);
@@ -18,10 +19,12 @@ const useRemoveContacts = () => {
             const data = await res.json();
 
             if (!res.ok) {
-                throw new Error(data.message || "Kontaktı silmək mümkün olmadı");
+                throw new Error(data.message || "Contacts could not be retrieved");
             }
 
-            toast.success("Kontakt uğurla silindi!");
+            setContacts(contacts.filter((item)=> {item._id !== contactID}));
+
+            toast.success("Contact deleted successfully!");
 
         } catch (error) {
             toast.error(error.message);

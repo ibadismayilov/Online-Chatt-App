@@ -20,7 +20,7 @@ export const getReceiverSocketID = (receiverID) => {
 };
 
 io.on('connection', (socket) => {
-    console.log('✅ Yeni istifadəçi qoşuldu:', socket.id);
+    console.log('✅ New user joined:', socket.id);
 
     const userID = socket.handshake.query.userID;
     if (userID && userID !== 'undefined') userSocketMap[userID] = socket.id;
@@ -28,7 +28,7 @@ io.on('connection', (socket) => {
     io.emit('getOnlineUser', Object.keys(userSocketMap));
 
     socket.on('disconnect', () => {
-        console.log('❌ İstifadəçi ayrıldı:', socket.id);
+        console.log('❌User logged out:', socket.id);
         delete userSocketMap[userID];
         io.emit('getOnlineUser', Object.keys(userSocketMap));
     });

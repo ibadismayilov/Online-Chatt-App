@@ -3,31 +3,45 @@ import { IoArrowBack, IoCamera } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import { useAuthContext } from "../context/AuthContext";
 import useUpdateUserInformation from "../hooks/useUpdateUserInformation";
+import toast from "react-hot-toast";
 
 const Profile = () => {
     const { authUser, setAuthUser } = useAuthContext();
     const { updateInformation, loading } = useUpdateUserInformation();
 
     const [fullname, setFullname] = useState(authUser.fullname);
-
+    const [biography, setBiography] = useState(authUser.biography);
 
     if (!authUser) return null;
 
     useEffect(() => {
         setFullname(authUser?.fullname || "");
+        setBiography(authUser?.biography || "");
     }, [authUser]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (fullname === authUser.fullname) return;
-
-        const updatedUser = await updateInformation(fullname);
         
-        if (updatedUser) {
-            setAuthUser(prev => ({ ...prev, fullname: updatedUser.fullname }));
-            setFullname(updatedUser.fullname);
+        if (fullname === authUser.fullname && biography === authUser.biography) {
+            toast.error("No changes detected");
+            return;
         }
+    
+        const updatedUser = await updateInformation(fullname, biography);
+        
+        if (!updatedUser) {
+            toast.error("Update failed. Please try again.");
+            return;
+        }
+    
+        setAuthUser(prev => ({
+            ...prev,
+            fullname: updatedUser.fullname ?? prev.fullname,
+            biography: updatedUser.biography ?? prev.biography
+        }));
+
     };
+    
 
     return (
         <div className="profile-wrapper">
@@ -75,11 +89,12 @@ const Profile = () => {
                         </div>
 
                         <div className="info-group">
-                            <label>Bio</label>
+                            <label>Biography</label>
                             <textarea
                                 placeholder="Write something about yourself..."
                                 rows="4"
-                                value={authUser.biography}
+                                value={biography}
+                                onChange={(e) => setBiography(e.target.value)}
                             />
                         </div>
 

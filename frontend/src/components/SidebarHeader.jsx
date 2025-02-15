@@ -29,7 +29,7 @@ const SidebarHeader = () => {
                                             Profile
                                         </Link>
                                     </li>
-                                    <li>Settings</li>
+                                    {/* <li>Settings</li> */}
                                     <li>
                                         <LogoutButtons />
                                     </li>

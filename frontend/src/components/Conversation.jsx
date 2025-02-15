@@ -64,7 +64,7 @@ const Conversation = ({ conversation }) => {
                 )}
             </div>
 
-            {isOpen && (
+            {/* {isOpen && (
                 <div className="modal-overlay" onClick={() => setIsOpen(false)}>
                     <div className="modal-content">
                         <img 
@@ -74,7 +74,7 @@ const Conversation = ({ conversation }) => {
                         />
                     </div>
                 </div>
-            )}
+            )} */}
         </div>
     );
 };

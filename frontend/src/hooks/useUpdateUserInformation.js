@@ -5,7 +5,10 @@ const useUpdateUserInformation  = () => {
     const [loading, setLoading] = useState(false);
 
     const updateInformation = async ( fullname, biography ) => {
-        if (!fullname) return;
+        if (!fullname || !biography){
+            toast.error("No changes detected");
+            return;
+        }
 
         setLoading(true);
         try {
@@ -23,8 +26,10 @@ const useUpdateUserInformation  = () => {
                 throw new Error(data.message || "An error occurred");
             }
 
-            toast.success("Data updated successfully");
+            toast.success("Profile updated successfully");
+
             return data.user;
+
         } catch (error) {
             toast.error(error.message);
         } finally {
