@@ -1,7 +1,4 @@
 
----
-
-### 2) Markdown işarələri olmadan (sadə mətndə)
 
 # 💬 Online Chat Application
 
