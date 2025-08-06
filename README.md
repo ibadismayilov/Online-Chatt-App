@@ -29,40 +29,42 @@ You can check the live version of the app here:
 [Online Chat Application](https://online-chatt-app-11.onrender.com)
 
 ## 💻 Running Locally
+
 To run the project on your local machine, follow these steps:
 
-Clone the repository:
-
+- Clone the repository:  
 git clone https://github.com/YourUsername/YourProjectName.git
 
-Navigate into the project folder:
-
+- Navigate into the project folder:  
 cd YourProjectName
 
-Install the required dependencies:
-
+- Install the required dependencies:  
 npm install
 
-Create a .env file in the root directory and add the following environment variables:
+- Create a .env file in the root directory and add the following environment variables:  
+JWT_SECRET=your_jwt_secret_key  
+MONGODB_URI=your_mongodb_connection_string  
+NODE_ENV=development  
+PORT=3000  
+VITE_SOCKET_URL=http://localhost:3000  
 
-JWT_SECRET=your_jwt_secret_key
-MONGODB_URI=your_mongodb_connection_string
-NODE_ENV=development
-PORT=3000
-VITE_SOCKET_URL=http://localhost:3000
+- Variable descriptions:  
+  - JWT_SECRET: Secret key used for signing JSON Web Tokens.  
+  - MONGODB_URI: Connection string for your MongoDB database.  
+  - NODE_ENV: Environment mode (development or production).  
+  - PORT: Port number where the server will run (default: 3000).  
+  - VITE_SOCKET_URL: URL for Socket.IO connection on the client side.
 
-Note: Replace the placeholder values with your actual configurations.
+Make sure to replace the placeholder values with your actual configuration.
 
-Start the application:
-
+- Start the application:  
 npm start
 
-Open your browser and go to:
+- Open your browser and go to:  
 http://localhost:3000
 
-👨‍💻 Author
+## 👨‍💻 Author
+
 İbad İsmayılov
 
-LinkedInsmayılov
-
-[LinkedIn]([your-linkedin-url](https://www.linkedin.com/in/ibad-ismayılov-90a669317/)
+[LinkedIn]([İbad İsmayılov](https://www.linkedin.com/in/ibad-ismayılov-90a669317/)
