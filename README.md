@@ -67,4 +67,4 @@ http://localhost:3000
 
 İbad İsmayılov
 
-[LinkedIn]([İbad İsmayılov](https://www.linkedin.com/in/ibad-ismayılov-90a669317/)
+[LinkedIn](https://www.linkedin.com/in/ibad-ismayılov-90a669317/)
